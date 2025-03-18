@@ -14,7 +14,7 @@ int main(void)
     while (num_in/div >= 1)
     {
         // Quita los números detrás del dígito de interés
-        digit_in = (num_in / div)
+        digit_in = (num_in / div);
 
         // Quita los números delante del dígito de interés
         digit_out = digit_in % 10; 
