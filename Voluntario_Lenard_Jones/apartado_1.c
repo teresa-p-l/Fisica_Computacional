@@ -6,14 +6,14 @@
 
 // Inicializamos los parámetros
 
-#define N 25        // Número de átomos
+#define N 20        // Número de átomos
 #define L 10.0    // Longitud de la caja
 #define epsilon 1.0 
 #define sigma 1.0
 #define k 1.0
 #define mass 1.0
 #define v_0 1.0
-#define h 0.0002
+#define h 0.002
 #define Time 100
 #define PI 3.14159265358979323846
 
@@ -55,18 +55,18 @@ void dist_min(double *r_i, double *r_j, double *R) {
 // Establecemos las condiciones iniciales 
 
 void initial_conditions () {
-  /*  
+   
     for(int i = 0; i < N; i++) {
         r[i][0] = (i % ((int)sqrt(N)+1))*L/((int)sqrt(N)+1);      // Posiciones aleatorias
         r[i][1] = (i / ((int)sqrt(N)+1))*L/((int)sqrt(N)+1); 
 
         double theta = ((double)rand() / (double)RAND_MAX) * 2 * PI;
 
-        v[i][0] = v_0 * 40*cos(theta);          // Velocidades de módulo 1 y ángulos aleatorios
-        v[i][1] = v_0 * 40*sin(theta);
+        v[i][0] = v_0 * cos(theta);          // Velocidades de módulo 1 y ángulos aleatorios
+        v[i][1] = v_0 * sin(theta);
     }
-*/
-
+  
+ /*
     srand(time(NULL));  // Inicializar la semilla para números aleatorios
 
     for (int i = 0; i < N; i++) {
@@ -78,6 +78,7 @@ void initial_conditions () {
         v[i][0] = v_0 * cos(theta);          // Velocidades de módulo 1 y ángulos aleatorios
         v[i][1] = v_0 * sin(theta);
     }
+*/
         
 }
 
@@ -154,39 +155,53 @@ void verlet (FILE *archivo_posiciones) {
 void compute_energy(FILE *archivo_energia) {
     double E_kin = 0.0;
     double E_pot = 0.0;
+    double E_tot=0.0;
 
     for (int i = 0; i < N; i++) {
         E_kin += 0.5 * mass * (v[i][0] * v[i][0] + v[i][1] * v[i][1]);
     }
 
     for (int i = 0; i < N; i++) {
-        for (int j = 0; j < i; j++) {  // Solo calcular cada par una vez
-            double R[2];
-            dist_min(r[i], r[j], R);
+        for (int j = 0; j < N; j++) {  // Solo calcular cada par una vez
             
-            double mod_R = sqrt( R[0]*R[0] + R[1]*R[1] );
+            if (i != j) {
+                double R[2];
+                dist_min(r[i], r[j], R);
             
-            if ( R[0]*R[0] + R[1]*R[1] < 9.0*sigma*sigma ) {  // Solo para r < 3*sigma
-                E_pot += 4.0 * epsilon * (pow(sigma/mod_R, 12) - pow(sigma/mod_R, 6));
+                double mod_R = sqrt( R[0]*R[0] + R[1]*R[1] );
+            
+                if ( R[0]*R[0] + R[1]*R[1] < 9.0*sigma*sigma ) {  // Solo para r < 3*sigma
+                    E_pot += 4.0 * epsilon * (pow(sigma/mod_R, 12) - pow(sigma/mod_R, 6));
+                }
+            
             }
         }
     }
     
-    double E_tot = E_kin + E_pot;
+    E_tot = E_kin + E_pot;
 
     fprintf(archivo_energia, "%e %e %e\n", E_kin, E_pot, E_tot);
 }
 
 
 // Función para calcular la temperatura del sistema y el histograma de velocidades
-double compute_histogram_v() {
+
+
+double compute_histogram_v_paT() {
+    
     double suma = 0.0;
     for (int i = 0; i < N; i++) {
-        suma += v[i][0]*v[i][0] + v[i][1]*v[i][1];
+        suma += sqrt( v[i][0]*v[i][0] + v[i][1]*v[i][1] );
     }
     return suma / N;
 }
 
+void compute_histogram_v(FILE *archivo_velocidades) {
+    for (int i = 0; i < N; i++) {
+        fprintf(archivo_velocidades, "%e\n", sqrt( v[i][0]*v[i][0] + v[i][1]*v[i][1] ));
+    }
+
+}
 
 // njhjhjhjhjhjhjhjhjhjhjhjhjhjh
 
@@ -230,10 +245,9 @@ int main(void) {
     for (int step = 0; step < steps; step++) {
         verlet(archivo_posiciones);
         compute_energy(archivo_energia);
-        compute_histogram_v();
-        if ((step >=(int)(Tmin/h)) && (step >=(int)(Tmax/h))){
-            V_promedio += compute_histogram_v(); 
-            fprintf(archivo_velocidades, "%e\n",V_promedio / step); 
+        if ((step >= (int)(Tmin/h)) && (step <(int)(Tmax/h))){
+            compute_histogram_v(archivo_velocidades); 
+            V_promedio += compute_histogram_v_paT(); // Acumulamos la temperatura
         }
         
     }

@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
 # Parámetros a adaptar
-filename    = "C:/Users/Teresa/Desktop/COMPU/FISICA_COMPUTACIONAL/Fisica_Computacional/Voluntario_Lenard_Jones/posiciones.txt"   # nombre de tu fichero
-N           = 25                 # número de partículas por “frame”
+filename    = "C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Lenard_Jones/posiciones.txt"   # nombre de tu fichero
+N           = 20                 # número de partículas por “frame”
 interval_ms = 10                # tiempo entre frames en ms
-output_mp4  = "C:/Users/Teresa/Desktop/COMPU/FISICA_COMPUTACIONAL/Fisica_Computacional/Voluntario_Lenard_Jones/simulacion.mp4"   # nombre del fichero de salida
+output_mp4  = "C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Lenard_Jones/simulacion.mp4"   # nombre del fichero de salida
 
 # --- 1) Leer y estructurar datos ---
 # Cada bloque de N líneas, dos columnas x,y
@@ -56,7 +56,7 @@ plt.show()
 
 # Cargar los datos de energía
 # Si el archivo tiene separadores por coma, cambia delimiter a ',' si es necesario
-energia = np.loadtxt('C:/Users/Teresa/Desktop/COMPU/FISICA_COMPUTACIONAL/Fisica_Computacional/Voluntario_Lenard_Jones/energia.txt')
+energia = np.loadtxt('C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Lenard_Jones/energia.txt')
 
 # Separar columnas
 ekin = energia[:, 0]  # Energía cinética
@@ -95,25 +95,25 @@ def maxwell_boltzmann_distribution(v, T, m, kB):
     return factor * v * np.exp(-m * v**2 / (2 * kB * T))
 
 # Parámetros
-T = 1.68  # Temperatura en Kelvin
+T = 1.22  # Temperatura en Kelvin
 m = 1  # Masa de la partícula en kg (ejemplo: masa de un átomo de hidrógeno)
 kB = 1  # Constante de Boltzmann en J/K
 
 # Rango de velocidades
-v = np.linspace(0, 2000, 500)  # Velocidades en m/s
+v = np.linspace(0, 100, 500)  # Velocidades en m/s
 
 # Calcular la distribución
 P_v = maxwell_boltzmann_distribution(v, T, m, kB)
 
 # Leer datos del archivo
-ruta_del_fichero = "c:/Users/Teresa/Desktop/COMPU/FISICA_COMPUTACIONAL/Fisica_Computacional/Voluntario_Lenard_Jones/velocidades.txt"
+ruta_del_fichero = "c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Lenard_Jones/velocidades.txt"
 datos = np.loadtxt(ruta_del_fichero)
 
 # Graficar
 plt.figure(figsize=(10, 6))
 
 # Histograma de los datos
-plt.hist(datos, bins=30, density=True, alpha=0.7, color='orange', label='Histograma de datos')
+plt.hist(datos, bins=100, density=True, alpha=1, color='orange', label='Histograma de datos')
 
 # Distribución de Maxwell-Boltzmann
 plt.plot(v, P_v, label='Distribución de Maxwell-Boltzmann', color='blue')
