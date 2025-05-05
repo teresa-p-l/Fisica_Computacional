@@ -13,7 +13,7 @@
 #define k 1.0
 #define mass 1.0
 #define v_0 1.0
-#define h 0.002
+#define h 0.02
 #define Time 100
 #define PI 3.14159265358979323846
 
