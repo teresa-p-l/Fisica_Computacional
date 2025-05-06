@@ -38,6 +38,31 @@ void periodic(double *r) {
     if (r[1] < 0) r[1] += L;
 }
 
+double suma_momentos(double *r, double *v){
+    double suma_momento = 0.0;
+    double sumax = 0.0;
+    double sumay = 0.0;
+
+    if (r[0] >= L ) {
+        sumax += 2.0 * mass * v[0];
+        printf("%e\n", sumax);
+    }
+    if (r[0] <= 0 ){
+        sumax += 2.0 * mass * v[0]; 
+        printf("%e\n", sumax);
+    }
+    if (r[1] >= L ){
+        sumay += 2.0 * mass * v[1];
+        printf("%e\n", sumay);
+    }
+    if (r[1] <= 0 ) {
+        sumay += 2.0 * mass * v[1];
+        printf("%e\n", sumay);
+    } 
+
+    return sumax + sumay;
+}
+
 
 // Función para calcular la distancia mínima entre dos puntos con condiciones periódicas
 
@@ -50,6 +75,7 @@ void dist_min(double *r_i, double *r_j, double *R) {
     if (R[0] < -L/2) R[0] += L;
     if (R[1] > L/2) R[1] -= L;
     if (R[1] < -L/2) R[1] += L;
+
 }
 
 // Establecemos las condiciones iniciales 
@@ -124,12 +150,14 @@ void aceleracion(){
 
 // Función que realiza el algoritmo de Verlet
 
-void verlet (FILE *archivo_posiciones) {
+double verlet (FILE *archivo_posiciones) {
 
     double omega[N][2];  // Definimos un vector auxiliar
+    double momento = 0.0;
     for (int i = 0; i < N; i++) {
         r[i][0] += v[i][0] * h + 0.5 * a[i][0] * h * h;
         r[i][1] += v[i][1] * h + 0.5 * a[i][1] * h * h;
+        momento += suma_momentos(r[i], v[i]);
         periodic(r[i]);
         omega[i][0] = v[i][0] + 0.5 * a[i][0] * h; 
         omega[i][1] = v[i][1] + 0.5 * a[i][1] * h;
@@ -147,44 +175,11 @@ void verlet (FILE *archivo_posiciones) {
         fprintf(archivo_posiciones, "%e %e\n", r[i][0], r[i][1]);
     }
     fprintf(archivo_posiciones, "\n");
+
+    return momento; // Devolvemos el momento total
 }
 
-
-// Hacemos una función que nos de la enerergía cinética, potencial y total y la escriba en un archivo
-
-void compute_energy(FILE *archivo_energia) {
-    double E_kin = 0.0;
-    double E_pot = 0.0;
-    double E_tot=0.0;
-
-    for (int i = 0; i < N; i++) {
-        E_kin += 0.5 * mass * (v[i][0] * v[i][0] + v[i][1] * v[i][1]);
-    }
-
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {  // Solo calcular cada par una vez
-            
-            if (i != j) {
-                double R[2];
-                dist_min(r[i], r[j], R);
-            
-                double mod_R = sqrt( R[0]*R[0] + R[1]*R[1] );
-            
-                if ( R[0]*R[0] + R[1]*R[1] < 9.0*sigma*sigma ) {  // Solo para r < 3*sigma
-                    E_pot += 4.0 * epsilon * (pow(sigma/mod_R, 12) - pow(sigma/mod_R, 6));
-                }
-            
-            }
-        }
-    }
-    
-    E_tot = E_kin + E_pot;
-
-    fprintf(archivo_energia, "%e %e %e\n", E_kin, E_pot, E_tot);
-}
-
-
-// Función para calcular la temperatura del sistema y el histograma de velocidades
+// Función para calcular la temperatura del sistema
 
 
 double compute_histogram_v_paT() {
@@ -196,14 +191,7 @@ double compute_histogram_v_paT() {
     return suma / N;
 }
 
-void compute_histogram_v(FILE *archivo_velocidades) {
-    for (int i = 0; i < N; i++) {
-        fprintf(archivo_velocidades, "%e\n", sqrt( v[i][0]*v[i][0] + v[i][1]*v[i][1] ));
-    }
 
-}
-
-// njhjhjhjhjhjhjhjhjhjhjhjhjhjh
 
 
 
@@ -215,38 +203,19 @@ int main(void) {
         return 1;
     }
 
-    FILE *archivo_energia = fopen("energia.txt", "w");
-    if (archivo_energia == NULL) {
-        printf("Error al abrir el archivo de energía.\n");
-        return 1;
-    }
-
-    FILE *archivo_velocidades = fopen("velocidades.txt", "w");
-    if (archivo_velocidades == NULL) {
-        printf("Error al abrir el archivo de velocidades.\n");
-        return 1;
-    }
+    double momento_final = 0.0;
 
     initial_conditions ();  
     aceleracion();  
 
  
 
-    // Guardar posiciones iniciales
-    for (int i = 0; i < N; i++) {
-        fprintf(archivo_posiciones, "%e %e\n", r[i][0], r[i][1]);
-    }
-    fprintf(archivo_posiciones, "\n");
-    
-
     V_promedio = 0.0;
     // Bucle principal de la simulación
     int steps = (int)(Time/h);
     for (int step = 0; step < steps; step++) {
-        verlet(archivo_posiciones);
-        compute_energy(archivo_energia);
+        momento_final += verlet(archivo_posiciones);
         if ((step >= (int)(Tmin/h)) && (step <(int)(Tmax/h))){
-            compute_histogram_v(archivo_velocidades); 
             V_promedio += compute_histogram_v_paT(); // Acumulamos la temperatura
         }
         
@@ -256,10 +225,9 @@ int main(void) {
     printf("Temperatura final: %e\n", Temp); // Imprimir la temperatura final
 
 
+    printf("momento: %e\n", momento_final);
     
     fclose(archivo_posiciones);
-    fclose(archivo_energia);
-    fclose(archivo_velocidades);
     printf("Simulación completada. Resultados guardados en archivos de salida.\n");
 
     return 0;
