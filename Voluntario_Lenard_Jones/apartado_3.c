@@ -6,14 +6,14 @@
 
 // Inicializamos los parámetros
 
-#define N 20        // Número de átomos
+#define N 16        // Número de átomos
 #define L 10.0    // Longitud de la caja
 #define epsilon 1.0 
 #define sigma 1.0
 #define k 1.0
 #define mass 1.0
 #define v_0 1.0
-#define h 0.02
+#define h 0.002
 #define Time 100
 #define PI 3.14159265358979323846
 
@@ -45,19 +45,19 @@ double suma_momentos(double *r, double *v){
 
     if (r[0] >= L ) {
         sumax += 2.0 * mass * v[0];
-        printf("%e\n", sumax);
+        //printf("%e\n", sumax);
     }
     if (r[0] <= 0 ){
         sumax += 2.0 * mass * v[0]; 
-        printf("%e\n", sumax);
+        //printf("%e\n", sumax);
     }
     if (r[1] >= L ){
         sumay += 2.0 * mass * v[1];
-        printf("%e\n", sumay);
+        //printf("%e\n", sumay);
     }
     if (r[1] <= 0 ) {
         sumay += 2.0 * mass * v[1];
-        printf("%e\n", sumay);
+        //printf("%e\n", sumay);
     } 
 
     return sumax + sumay;
@@ -225,7 +225,7 @@ int main(void) {
     printf("Temperatura final: %e\n", Temp); // Imprimir la temperatura final
 
 
-    printf("momento: %e\n", momento_final);
+    printf("momento: %e\n", momento_final/L);
     
     fclose(archivo_posiciones);
     printf("Simulación completada. Resultados guardados en archivos de salida.\n");
