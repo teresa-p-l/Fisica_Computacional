@@ -99,15 +99,17 @@ T = 1.22  # Temperatura en Kelvin
 m = 1  # Masa de la partícula en kg (ejemplo: masa de un átomo de hidrógeno)
 kB = 1  # Constante de Boltzmann en J/K
 
-# Rango de velocidades
-v = np.linspace(0, 100, 500)  # Velocidades en m/s
 
-# Calcular la distribución
-P_v = maxwell_boltzmann_distribution(v, T, m, kB)
 
 # Leer datos del archivo
 ruta_del_fichero = "c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Lenard_Jones/velocidades.txt"
 datos = np.loadtxt(ruta_del_fichero)
+
+# Rango de velocidades
+v = np.linspace(0, np.max(datos)*1.5, 500)  # Velocidades en m/s
+
+# Calcular la distribución
+P_v = maxwell_boltzmann_distribution(v, T, m, kB)
 
 # Graficar
 plt.figure(figsize=(10, 6))
