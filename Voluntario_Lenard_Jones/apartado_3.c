@@ -48,7 +48,7 @@ double suma_momentos(double *r, double *v){
         //printf("%e\n", sumax);
     }
     if (r[0] <= 0 ){
-        sumax += 2.0 * mass * v[0]; 
+        sumax -= 2.0 * mass * v[0]; 
         //printf("%e\n", sumax);
     }
     if (r[1] >= L ){
@@ -56,7 +56,7 @@ double suma_momentos(double *r, double *v){
         //printf("%e\n", sumay);
     }
     if (r[1] <= 0 ) {
-        sumay += 2.0 * mass * v[1];
+        sumay -= 2.0 * mass * v[1];
         //printf("%e\n", sumay);
     } 
 
@@ -226,6 +226,11 @@ int main(void) {
 
 
     printf("momento: %e\n", momento_final/L);
+
+
+    FILE *datos_simulacion = fopen("datos_simulacion.txt", "w");
+    fprintf(datos_simulacion, "%d %f %f %f \n",N, L, h, Temp); // Guardar los parámetros de la simulación
+    fclose(datos_simulacion);
     
     fclose(archivo_posiciones);
     printf("Simulación completada. Resultados guardados en archivos de salida.\n");

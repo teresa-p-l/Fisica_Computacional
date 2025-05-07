@@ -14,7 +14,7 @@
 #define mass 1.0
 #define v_0 1.0
 #define h 0.002
-#define Time 1000
+#define Time 100
 #define PI 3.14159265358979323846
 
 #define Tmin 20     // Tiempos para el histograma de velocidades
@@ -57,8 +57,8 @@ void dist_min(double *r_i, double *r_j, double *R) {
 void initial_conditions () {
    
     for(int i = 0; i < N; i++) {
-        r[i][0] = (i % ((int)sqrt(N)+1))*L/((int)sqrt(N)+1);      // Posiciones aleatorias
-        r[i][1] = (i / ((int)sqrt(N)+1))*L/((int)sqrt(N)+1); 
+        r[i][0] = (i % ((int)sqrt(N))) * ( L / ((int)sqrt(N))) + 0.5;      // Posiciones aleatorias
+        r[i][1] = (i / ((int)sqrt(N))) * ( L / ((int)sqrt(N))) + 0.5; 
 
         double theta = ((double)rand() / (double)RAND_MAX) * 2 * PI;
 
@@ -255,6 +255,10 @@ int main(void) {
     Temp = V_promedio / ((Tmax - Tmin) / h); // Temperatura final
     printf("Temperatura final: %e\n", Temp); // Imprimir la temperatura final
 
+
+    FILE *datos_simulacion = fopen("datos_simulacion.txt", "w");
+    fprintf(datos_simulacion, "%d %f %f %f \n",N, L, h, Temp); // Guardar los parámetros de la simulación
+    fclose(datos_simulacion);
 
     
     fclose(archivo_posiciones);

@@ -227,6 +227,7 @@ int main(void) {
         return 1;
     }
 
+
     initial_conditions ();  
     aceleracion();  
 
@@ -254,6 +255,12 @@ int main(void) {
 
     Temp = V_promedio / ((Tmax - Tmin) / h); // Temperatura final
     printf("Temperatura final: %e\n", Temp); // Imprimir la temperatura final
+
+
+    
+    FILE *datos_simulacion = fopen("datos_simulacion.txt", "w");
+    fprintf(datos_simulacion, "%d %f %f %f \n",N, L, h, Temp); // Guardar los parámetros de la simulación
+    fclose(datos_simulacion);
 
 
     

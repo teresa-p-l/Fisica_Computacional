@@ -2,10 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
+
+data = np.loadtxt('C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Lenard_Jones/datos_simulacion.txt')
+N, L, h, T = int(data[0]), data[1], data[2], data[3]
+
 # Parámetros a adaptar
-filename    = "C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Lenard_Jones/posiciones.txt"   # nombre de tu fichero
-N           = 4                 # número de partículas por “frame”
-interval_ms = 200                # tiempo entre frames en ms
+filename    = "C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Lenard_Jones/posiciones.txt"   # nombre de tu fichero              
+interval_ms = 50                # tiempo entre frames en ms
 output_mp4  = "C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Lenard_Jones/simulacion.mp4"   # nombre del fichero de salida
 
 # --- 1) Leer y estructurar datos ---
@@ -21,8 +24,8 @@ fig, ax = plt.subplots()
 scat = ax.scatter([], [], s=50)
 
 # Ajusta límites en función de tus datos
-ax.set_xlim( 0, 4)
-ax.set_ylim(0, 4)
+ax.set_xlim( 0, L)
+ax.set_ylim(0, L)
 ax.set_xlabel('x'); ax.set_ylabel('y')
 ax.set_title('Simulación de partículas')
 
@@ -51,6 +54,13 @@ plt.show()
 # Guardar como vídeo mp4 (requiere ffmpeg instalado)
 #anim.save(output_mp4, writer='ffmpeg', dpi=150)
 #print(f'Vídeo guardado en {output_mp4}')
+
+
+
+
+
+
+
 
 
 
@@ -84,6 +94,16 @@ plt.show()
 
 
 
+
+
+
+
+
+
+
+
+
+
 # Hacemos la ecuación de maxwell
 
 import numpy as np
@@ -95,7 +115,6 @@ def maxwell_boltzmann_distribution(v, T, m, kB):
     return factor * v * np.exp(-m * v**2 / (2 * kB * T))
 
 # Parámetros
-T = 1.22  # Temperatura en Kelvin
 m = 1  # Masa de la partícula en kg (ejemplo: masa de un átomo de hidrógeno)
 kB = 1  # Constante de Boltzmann en J/K
 
@@ -115,7 +134,7 @@ P_v = maxwell_boltzmann_distribution(v, T, m, kB)
 plt.figure(figsize=(10, 6))
 
 # Histograma de los datos
-plt.hist(datos, bins=100, density=True, alpha=1, color='orange', label='Histograma de datos')
+plt.hist(datos, bins=120, density=True, alpha=1, color='orange', label='Histograma de datos')
 
 # Distribución de Maxwell-Boltzmann
 plt.plot(v, P_v, label='Distribución de Maxwell-Boltzmann', color='blue')
