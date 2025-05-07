@@ -4,8 +4,8 @@ import matplotlib.animation as animation
 
 # Parámetros a adaptar
 filename    = "C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Lenard_Jones/posiciones.txt"   # nombre de tu fichero
-N           = 20                 # número de partículas por “frame”
-interval_ms = 10                # tiempo entre frames en ms
+N           = 4                 # número de partículas por “frame”
+interval_ms = 200                # tiempo entre frames en ms
 output_mp4  = "C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Lenard_Jones/simulacion.mp4"   # nombre del fichero de salida
 
 # --- 1) Leer y estructurar datos ---
@@ -21,8 +21,8 @@ fig, ax = plt.subplots()
 scat = ax.scatter([], [], s=50)
 
 # Ajusta límites en función de tus datos
-ax.set_xlim( 0, 10)
-ax.set_ylim(0, 10)
+ax.set_xlim( 0, 4)
+ax.set_ylim(0, 4)
 ax.set_xlabel('x'); ax.set_ylabel('y')
 ax.set_title('Simulación de partículas')
 
