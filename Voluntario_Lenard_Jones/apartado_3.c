@@ -12,10 +12,11 @@
 #define sigma 1.0
 #define k 1.0
 #define mass 1.0
-#define v_0 1.0
 #define h 0.002
-#define Time 100
+#define Time 50
 #define PI 3.14159265358979323846
+#define nmom 10
+
 
 #define Tmin 20     // Tiempos para el histograma de velocidades
 #define Tmax 60
@@ -31,37 +32,31 @@ double V_promedio;
 
 // Función para hacer las coordenadas periódicas
 
-void periodic(double *r) {
-    if (r[0] >= L) r[0] -= L;
-    if (r[0] < 0) r[0] += L;
-    if (r[1] >= L) r[1] -= L;
-    if (r[1] < 0) r[1] += L;
-}
-
-double suma_momentos(double *r, double *v){
+double periodic(double r[N][2], double v[N][2], int i ) {
     double suma_momento = 0.0;
     double sumax = 0.0;
     double sumay = 0.0;
-
-    if (r[0] >= L ) {
-        sumax += 2.0 * mass * v[0];
-        //printf("%e\n", sumax);
+    
+    if (r[i][0] >= L) {
+        r[i][0] -= L; 
+        sumax +=  mass * v[i][0];
     }
-    if (r[0] <= 0 ){
-        sumax -= 2.0 * mass * v[0]; 
-        //printf("%e\n", sumax);
+    if (r[i][0] < 0) {
+        r[i][0] += L;
+        sumax -=  mass * v[i][0];
     }
-    if (r[1] >= L ){
-        sumay += 2.0 * mass * v[1];
-        //printf("%e\n", sumay);
+    if (r[i][1] >= L) {
+        r[i][1] -= L; 
+        sumay +=  mass * v[i][1];
     }
-    if (r[1] <= 0 ) {
-        sumay -= 2.0 * mass * v[1];
-        //printf("%e\n", sumay);
-    } 
+    if (r[i][1] < 0) {
+        r[i][1] += L; 
+        sumay -=  mass * v[i][1];
+    }
 
     return sumax + sumay;
 }
+
 
 
 // Función para calcular la distancia mínima entre dos puntos con condiciones periódicas
@@ -80,7 +75,7 @@ void dist_min(double *r_i, double *r_j, double *R) {
 
 // Establecemos las condiciones iniciales 
 
-void initial_conditions () {
+void initial_conditions (double v_0) {
    
     for(int i = 0; i < N; i++) {
         r[i][0] = (i % ((int)sqrt(N)+1))*L/((int)sqrt(N)+1);      // Posiciones aleatorias
@@ -157,8 +152,8 @@ double verlet (FILE *archivo_posiciones) {
     for (int i = 0; i < N; i++) {
         r[i][0] += v[i][0] * h + 0.5 * a[i][0] * h * h;
         r[i][1] += v[i][1] * h + 0.5 * a[i][1] * h * h;
-        momento += suma_momentos(r[i], v[i]);
-        periodic(r[i]);
+        momento += periodic(r, v, i);
+        
         omega[i][0] = v[i][0] + 0.5 * a[i][0] * h; 
         omega[i][1] = v[i][1] + 0.5 * a[i][1] * h;
     }
@@ -186,9 +181,9 @@ double compute_histogram_v_paT() {
     
     double suma = 0.0;
     for (int i = 0; i < N; i++) {
-        suma += sqrt( v[i][0]*v[i][0] + v[i][1]*v[i][1] );
+        suma +=  v[i][0]*v[i][0] + v[i][1]*v[i][1] ;
     }
-    return suma / N;
+    return suma / (N);
 }
 
 
@@ -202,30 +197,40 @@ int main(void) {
         printf("Error al abrir el archivo de posiciones.\n");
         return 1;
     }
-
-    double momento_final = 0.0;
-
-    initial_conditions ();  
-    aceleracion();  
-
- 
-
-    V_promedio = 0.0;
-    // Bucle principal de la simulación
-    int steps = (int)(Time/h);
-    for (int step = 0; step < steps; step++) {
-        momento_final += verlet(archivo_posiciones);
-        if ((step >= (int)(Tmin/h)) && (step <(int)(Tmax/h))){
-            V_promedio += compute_histogram_v_paT(); // Acumulamos la temperatura
-        }
-        
+    FILE *archivo_momentos = fopen("momentos.txt", "w");
+    if (archivo_momentos == NULL) {
+        printf("Error al abrir el archivo de momentos.\n");
+        return 1;
     }
 
-    Temp = V_promedio / ((Tmax - Tmin) / h); // Temperatura final
-    printf("Temperatura final: %e\n", Temp); // Imprimir la temperatura final
+
+    
+    double v_0 = 0.0;
+    fprintf(archivo_momentos, "Velocidad Temperatura Presion \n");
+
+    for ( int m = 0; m < nmom; m++) {
+        v_0++;
+
+        initial_conditions (v_0);  
+        aceleracion();
+        double momento_final = 0.0;  
+    
+        V_promedio = 0.0;
+        // Bucle principal de la simulación
+        int steps = (int)(Time/h);
+        int equil_start = steps / 5; // Empieza el promedio en t = 20% del total
+        for (int step = 0; step < steps; step++) {
+            if (step > equil_start){
+                momento_final += verlet(archivo_posiciones);
+                V_promedio += compute_histogram_v_paT(); // Acumulamos la temperatura
+            }
+        }
+        Temp = V_promedio /(steps)  ; // Temperatura final
+        fprintf(archivo_momentos, "%f %f %e \n", v_0, Temp, momento_final/(L*(Time/h))); // Imprimir la temperatura final
+
+    }
 
 
-    printf("momento: %e\n", momento_final/L);
 
 
     FILE *datos_simulacion = fopen("datos_simulacion.txt", "w");
@@ -233,6 +238,7 @@ int main(void) {
     fclose(datos_simulacion);
     
     fclose(archivo_posiciones);
+    fclose(archivo_momentos);
     printf("Simulación completada. Resultados guardados en archivos de salida.\n");
 
     return 0;

@@ -8,7 +8,7 @@ N, L, h, T = int(data[0]), data[1], data[2], data[3]
 
 # Parámetros a adaptar
 filename    = "C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Lenard_Jones/posiciones.txt"   # nombre de tu fichero              
-interval_ms = 50                # tiempo entre frames en ms
+interval_ms = 2                # tiempo entre frames en ms
 output_mp4  = "C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Lenard_Jones/simulacion.mp4"   # nombre del fichero de salida
 
 # --- 1) Leer y estructurar datos ---
@@ -27,7 +27,6 @@ scat = ax.scatter([], [], s=50)
 ax.set_xlim( 0, L)
 ax.set_ylim(0, L)
 ax.set_xlabel('x'); ax.set_ylabel('y')
-ax.set_title('Simulación de partículas')
 
 # Función de inicialización
 def init():
@@ -148,4 +147,25 @@ plt.legend()
 plt.tight_layout()
 
 # Mostrar la figura
+plt.show()
+
+
+
+
+
+
+
+
+# Representamos el módulo del desplazamiento de las partículas
+
+desplazamiento = np.loadtxt('C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Lenard_Jones/desplazamiento.txt')
+steps = np.arange(len(desplazamiento))
+# Crear el gráfico
+plt.figure(figsize=(8, 6))
+plt.plot(steps, desplazamiento, marker='o', linestyle='-', color='b', label='Desplazamiento', markersize=1)
+plt.grid(True)
+plt.legend()
+plt.tight_layout()
+        
+# Mostrar el gráfico
 plt.show()

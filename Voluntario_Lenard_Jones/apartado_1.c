@@ -6,7 +6,7 @@
 
 // Inicializamos los parámetros
 
-#define N 20        // Número de átomos
+#define N 16        // Número de átomos
 #define L 10.0    // Longitud de la caja
 #define epsilon 1.0 
 #define sigma 1.0
@@ -92,30 +92,30 @@ void aceleracion(){
     }
 
     for (int i = 0; i < N; i++) {
-        for (int j = 0; j < i; j++) {  // Solo calcular cada par una vez
+        for (int j = 0; j < N; j++) {  // Solo calcular cada par una vez
+            if (i != j){
+                double R[2];    // Distancia relativa
+                dist_min( r[i], r[j], R );
 
-            double R[2];    // Distancia relativa
-            dist_min( r[i], r[j], R );
-
-            double mod_R = sqrt( R[0]*R[0] + R[1]*R[1] );
+                double mod_R = sqrt( R[0]*R[0] + R[1]*R[1] );
             
             
-            if ( R[0]*R[0] + R[1]*R[1] < 9.0*sigma*sigma ) { // Solo considerar partículas dentro del rango de interacción (r < 3*sigma)
+                if ( R[0]*R[0] + R[1]*R[1] < 9.0*sigma*sigma ) { // Solo considerar partículas dentro del rango de interacción (r < 3*sigma)
 
-                // Calculamos la fuerza sin dirección
-                double f_mag = 4.0 * epsilon * ( 12.0 * pow(sigma/mod_R, 12) - 6.0 * pow(sigma/mod_R, 6)) / mod_R;
+                    // Calculamos la fuerza sin dirección
+                    double f_mag = 4.0 * epsilon * ( 12.0 * pow(sigma/mod_R, 12) - 6.0 * pow(sigma/mod_R, 6)) / mod_R;
                 
-                // Componentes de la fuerza
-                double fx = f_mag * R[0] / mod_R;
-                double fy = f_mag * R[1] / mod_R;
-                
-                // Aplicamos la segunda ley de Newton
-                a[i][0] += fx / mass;
-                a[i][1] += fy / mass;
-                a[j][0] -= fx / mass;
-                a[j][1] -= fy / mass;
+                    // Componentes de la fuerza
+                    double fx = f_mag * R[0] / mod_R;
+                    double fy = f_mag * R[1] / mod_R;
+                    
+                    // Aplicamos la segunda ley de Newton
+                    a[i][0] += fx / mass;
+                    a[i][1] += fy / mass;
+                    a[j][0] -= fx / mass;
+                    a[j][1] -= fy / mass;
 
-
+                }
             }
         }
     }
@@ -193,7 +193,7 @@ double compute_histogram_v_paT() {
     for (int i = 0; i < N; i++) {
         suma += sqrt( v[i][0]*v[i][0] + v[i][1]*v[i][1] );
     }
-    return suma / N;
+    return suma / (N*2);
 }
 
 void compute_histogram_v(FILE *archivo_velocidades) {
@@ -246,13 +246,14 @@ int main(void) {
     for (int step = 0; step < steps; step++) {
         verlet(archivo_posiciones);
         compute_energy(archivo_energia);
+
         if ((step >= (int)(Tmin/h)) && (step <(int)(Tmax/h))){
             compute_histogram_v(archivo_velocidades); 
             V_promedio += compute_histogram_v_paT(); // Acumulamos la temperatura
         }
         
     }
-
+    //Temp = V_promedio*V_promedio/2 / ((Tmax - Tmin) / h);
     Temp = V_promedio / ((Tmax - Tmin) / h); // Temperatura final
     printf("Temperatura final: %e\n", Temp); // Imprimir la temperatura final
 
