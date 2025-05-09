@@ -14,11 +14,11 @@
 #define mass 1.0
 #define v_0 1.0
 #define h 0.02
-#define Time 100
+#define Time 50.0
 #define PI 3.14159265358979323846
 
 #define Tmin 40     // Tiempos para el histograma de velocidades
-#define Tmax 100
+#define Tmax 60
 
 
 // Definimos arrays
@@ -268,15 +268,15 @@ int main(void) {
         }
         
     }
-    //Temp = V_promedio*V_promedio/2 / ((Tmax - Tmin) / h);
-    Temp = paprobar / ((Tmax - Tmin) / h); 
+    Temp = V_promedio*V_promedio/2 / ((Tmax - Tmin) / h);
+    //Temp = paprobar / ((Tmax - Tmin) / h); 
     //Temp = V_promedio / ((Tmax - Tmin) / h); // Temperatura final
     printf("Temperatura final: %e\n", Temp); // Imprimir la temperatura final
 
 
     
     FILE *datos_simulacion = fopen("datos_simulacion.txt", "w");
-    fprintf(datos_simulacion, "%d %f %f %f \n",N, L, h, Temp); // Guardar los parámetros de la simulación
+    fprintf(datos_simulacion, "%d %f %f %f %f \n",N, L, h, Temp, Time); // Guardar los parámetros de la simulación
     fclose(datos_simulacion);
 
 

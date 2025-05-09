@@ -4,11 +4,11 @@ import matplotlib.animation as animation
 
 
 data = np.loadtxt('C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Lenard_Jones/apartado_1/datos_simulacion.txt')
-N, L, h, T = int(data[0]), data[1], data[2], data[3]
+N, L, h, T, Time = int(data[0]), data[1], data[2], data[3], data[4]
 
 # Parámetros a adaptar
 filename    = "C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Lenard_Jones/apartado_1/posiciones.txt"   # nombre de tu fichero              
-interval_ms = 2                # tiempo entre frames en ms
+interval_ms = 10                # tiempo entre frames en ms
 output_mp4  = "C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Lenard_Jones/apartado_1/simulacion.mp4"   # nombre del fichero de salida
 
 # --- 1) Leer y estructurar datos ---
@@ -33,6 +33,7 @@ def init():
     scat.set_offsets(np.empty((0,2)))
     return scat,
 
+
 # Función que actualiza cada frame
 def update(frame_idx):
     xy = frames[frame_idx]
@@ -40,12 +41,15 @@ def update(frame_idx):
     ax.set_title(f'Tiempo: frame {frame_idx+1}/{n_frames}')
     return scat,
 
+
+
+
 # --- 3) Construir animación ---
 anim = animation.FuncAnimation(fig, update,
                                frames=range(n_frames),
                                init_func=init,
                                interval=interval_ms,
-                               blit=True)
+                               blit=False)
 
 # Mostrar por pantalla
 plt.show()
@@ -75,14 +79,17 @@ etot = energia[:, 2]  # Energía total
 # Crear vector de tiempo / frames
 frames = np.arange(len(energia))
 
+
 # Graficar
 plt.figure(figsize=(10, 6))
 plt.plot(frames, ekin, label='Energía Cinética', color='r')
 plt.plot(frames, epot, label='Energía Potencial', color='g')
 plt.plot(frames, etot, label='Energía Total', color='b')
 
+tiks = np.arange(0, (Time/h), 30/h)  # Cambia el paso según tus datos
+plt.xticks(tiks, labels=np.arange(0,Time,30))
 plt.title('Energías del Sistema')
-plt.xlabel('Frame')
+plt.xlabel('Tiempo (s)')
 plt.ylabel('Energía')
 plt.legend()
 plt.grid(True)
