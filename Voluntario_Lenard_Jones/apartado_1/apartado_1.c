@@ -6,7 +6,7 @@
 
 // Inicializamos los parámetros
 
-#define N 16        // Número de átomos
+#define N 20        // Número de átomos
 #define L 10.0    // Longitud de la caja
 #define epsilon 1.0 
 #define sigma 1.0
@@ -14,7 +14,7 @@
 #define mass 1.0
 #define v_0 1.0
 #define h 0.02
-#define Time 50.0
+#define Time 100.0
 #define PI 3.14159265358979323846
 
 #define Tmin 40     // Tiempos para el histograma de velocidades
@@ -268,8 +268,8 @@ int main(void) {
         }
         
     }
-    Temp = V_promedio*V_promedio/2 / ((Tmax - Tmin) / h);
-    //Temp = paprobar / ((Tmax - Tmin) / h); 
+    //Temp = V_promedio*V_promedio/2 / ((Tmax - Tmin) / h);
+    Temp = paprobar / ((Tmax - Tmin) / h); 
     //Temp = V_promedio / ((Tmax - Tmin) / h); // Temperatura final
     printf("Temperatura final: %e\n", Temp); // Imprimir la temperatura final
 

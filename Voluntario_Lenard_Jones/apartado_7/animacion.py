@@ -103,16 +103,82 @@ plt.show()
 
 
 
-# Representamos el módulo del desplazamiento de las partículas
 
-desplazamiento = np.loadtxt('C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Lenard_Jones/apartado_7/desplazamiento.txt')
-steps = np.arange(len(desplazamiento))
-# Crear el gráfico
-plt.figure(figsize=(8, 6))
-plt.plot(steps, desplazamiento, marker='o', linestyle='-', color='b', label='Desplazamiento', markersize=1)
-plt.grid(True)
-plt.legend()
-plt.tight_layout()
-        
-# Mostrar el gráfico
-plt.show()
+
+
+
+
+
+
+
+# APARTADO 7: VIDEO DE LAS FLUCTUACIONES
+
+
+#CAMBIA LA PARTICULA QUE FIJAS
+
+particula=0
+
+import matplotlib.pyplot as plt
+from matplotlib.animation import FFMpegWriter
+
+filename = 'C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Lenard_Jones/apartado_7/desplazamiento.txt'
+
+# Función para leer las fluctuaciones desde el archivo
+def leer_fluctuaciones(filename):
+
+    fluctuaciones = []
+    with open(filename, 'r') as file:
+        particulas_actuales = []  # Almacena las fluctuaciones de las partículas en un paso temporal
+        for linea in file:
+            linea = linea.strip()
+            if linea:  # Si la línea no está vacía
+                datos = list(map(float, linea.split()))  # Convertir los valores a flotantes
+                particulas_actuales.append(datos)
+            else:  # Si encontramos un salto de línea, procesamos el paso temporal
+                if particulas_actuales:
+                    # Transponer para obtener la evolución temporal de cada partícula
+                    if not fluctuaciones:
+                        fluctuaciones = [[] for _ in range(len(particulas_actuales))]
+                    for i, particula in enumerate(particulas_actuales):
+                        fluctuaciones[i].extend(particula)
+                    particulas_actuales = []  # Reiniciar para el siguiente paso temporal
+
+        # Procesar el último paso si no está vacío
+        if particulas_actuales:
+            if not fluctuaciones:
+                fluctuaciones = [[] for _ in range(len(particulas_actuales))]
+            for i, particula in enumerate(particulas_actuales):
+                fluctuaciones[i].extend(particula)
+
+    return fluctuaciones
+
+# Función para crear el video directamente
+def crear_video(fluctuaciones, video_path, intervalo=500):
+
+    writer = FFMpegWriter(fps=1000 // intervalo)
+    fig, ax = plt.subplots(figsize=(8, 6))
+
+    with writer.saving(fig, video_path, dpi=100):
+        for particula_idx, fluctuacion in enumerate(fluctuaciones):
+            pasos = range(1, len(fluctuacion) + 1)
+            ax.clear()
+            ax.plot(pasos, fluctuacion, color='blue', linewidth=0.8, label=f'Partícula {particula_idx + 1}')
+            ax.set_xlabel('Paso temporal')
+            ax.set_ylabel('Fluctuación')
+            ax.set_title(f'Fluctuación de la Partícula {particula_idx + 1} con respecto a la partícula {particula}')
+            ax.legend()
+            ax.grid(True)
+            writer.grab_frame()
+
+    print(f"Video guardado como '{video_path}'.")
+
+# Ejemplo de uso
+if __name__ == "__main__":
+    archivo = 'C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Lenard_Jones/apartado_7/desplazamiento.txt'  # Nombre del archivo de fluctuaciones
+    video_path = f"C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Lenard_Jones/apartado_7/fluctuaciones_{particula}.mp4"
+
+    # Leer las fluctuaciones
+    fluctuaciones = leer_fluctuaciones(archivo)
+
+    # Crear el video directamente
+    crear_video(fluctuaciones, video_path, intervalo=500)

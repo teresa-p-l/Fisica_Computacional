@@ -289,12 +289,22 @@ int main(void) {
             V_promedio += compute_histogram_v_paT(); // Acumulamos la temperatura
             paprobar += probemos(); // Acumulamos la temperatura
         //}
-        desplazamiento_medio += displacement(archivo_desplazamiento, r_0); // Acumulamos el desplazamiento medio al cuadrado
-        if (step % 5 ==0){
-            fprintf(archivo_desplazamiento, "%e\n", desplazamiento_medio/5.0); 
-            desplazamiento_medio = 0.0; // Reiniciamos el desplazamiento medio
+
+
+        for (int i = 0; i < N; i++) {
+            desplazamiento_medio += displacement(archivo_desplazamiento, i); // Acumulamos el desplazamiento medio al cuadrado
+            if (step % 5 ==0){
+                fprintf(archivo_desplazamiento, "%e\n", desplazamiento_medio/5.0); 
+                desplazamiento_medio = 0.0; // Reiniciamos el desplazamiento medio
+            }
         }
+        if (step % 5 ==0) fprintf(archivo_desplazamiento, "\n");
         
+
+
+
+        
+
     }
 
 
