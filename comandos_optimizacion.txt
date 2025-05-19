@@ -1,0 +1,21 @@
+ESTO EN PC EN POWERSHELL
+compilar omp: gcc nombredelprograma.c -o nombredelpuntoexe.exe -fopenmp
+	en el archivo debería ir una línea que sea:  #include<omp.h>
+
+compilar con o1: gcc nombredelprograma.c -o nombredelpuntoexe.exe -fopenmp -O1 -lm
+		(cambiamos o1 por o2, o3 ofast)
+		
+
+correr y que te diga el tiempo: measure-Command { .\nombrepuntoxe.exe }
+
+EN JOEL el comando para medir tiempo y correr es: time ./nombrepuntoexe 
+(en Joel no se pone el .exe (el .c sí)
+
+
+
+para paralelizar con threads es:
+$env:OMP_NUM_THREADS = numeroquequieras; measure-Command { .\nombrepuntoxe.exe }
+
+en Joel, en una linea aparte antes de poner el time:
+export OMP_NUM_THREADS=numeroquequieras
+time ./nombrepuntoexe  (esto en otra línea)
