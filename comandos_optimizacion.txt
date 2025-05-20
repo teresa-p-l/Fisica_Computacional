@@ -9,7 +9,7 @@ compilar con o1: gcc nombredelprograma.c -o nombredelpuntoexe.exe -fopenmp -O1 -
 correr y que te diga el tiempo: measure-Command { .\nombrepuntoxe.exe }
 
 EN JOEL el comando para medir tiempo y correr es: time ./nombrepuntoexe 
-(en Joel no se pone el .exe (el .c sí)
+(en Joel no se pone el .exe (el .c sí))
 
 
 
