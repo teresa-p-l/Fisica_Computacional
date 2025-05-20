@@ -13,12 +13,12 @@
 #define sigma 1.0
 #define k 1.0
 #define mass 1.0
-#define h 0.02
-#define Time 22.1
+#define h 0.002
+#define Time 100
 #define PI 3.14159265358979323846
 
-#define Tmin 0     // Tiempos para el histograma de velocidades
-#define Tmax 25
+#define Tmin 40     // Tiempos para el histograma de velocidades
+#define Tmax 60
 
 
 // Definimos arrays
@@ -32,10 +32,13 @@ double V_promedio;
 // Función para hacer las coordenadas periódicas
 
 void periodic(double *r) {
-    if (r[0] >= L) while (r[0] >= L) r[0] -= L;
-    if (r[0] < 0) while (r[0] < 0) r[0] += L;
-    if (r[1] >= L) while (r[1] >= L) r[1] -= L;
-    if (r[1] < 0) while (r[1] < 0) r[1] += L;
+    if (r[0] >= L)  r[0] -= L;
+    
+    if (r[0] < 0)  r[0] += L;
+
+    if (r[1] >= L)  r[1] -= L;
+
+    if (r[1] < 0)  r[1] += L;
 
     
     
@@ -56,7 +59,7 @@ void periodic(double *r) {
 /*    if (r[0] >= L) while (r[0] >= L) r[0] -= L;
     if (r[0] < 0) while (r[0] < 0) r[0] += L;
     if (r[1] >= L) while (r[1] >= L) r[1] -= L;
-    if (r[1] < 0) while (r[1] < 0) r[1] += L;*/
+    if (r[1] < 0) while (r[1] < 0) r[1] += L;;*/
 
 
 
@@ -67,13 +70,13 @@ void dist_min(double *r_i, double *r_j, double *R) {
     R[1] = r_i[1] - r_j[1];
     
     // Aplicar condiciones periódicas a la distancia relativa
-    for (int u=0; u<100; u++){
+
 
         if (R[0] > L/2)  R[0] -= L;
         if (R[0] < -L/2)  R[0] += L;
         if (R[1] > L/2)  R[1] -= L;
         if (R[1] < -L/2)  R[1] += L;
-    }
+
 
 /*    if (R[0] > L/2) while(R[0] > L/2) R[0] -= L;
     if (R[0] < -L/2) while(R[0] < -L/2) R[0] += L;
@@ -249,7 +252,7 @@ void compute_histogram_v(FILE *archivo_velocidades) {
 
 
 int main(void) {
-    double v_0=3.0; // Velocidad inicial
+    double v_0=4.0; // Velocidad inicial
 
 
         char nombre_archivo_posiciones[50]; // Buffer para el nombre del archivo
