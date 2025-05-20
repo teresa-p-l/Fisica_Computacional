@@ -45,7 +45,7 @@ anim = animation.FuncAnimation(fig, update,
                                frames=range(n_frames),
                                init_func=init,
                                interval=interval_ms,
-                               blit=True)
+                               blit=False)
 
 # Mostrar por pantalla
 plt.show()

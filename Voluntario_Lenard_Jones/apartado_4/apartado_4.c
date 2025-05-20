@@ -13,7 +13,7 @@
 #define k 1.0
 #define mass 1.0
 #define h 0.002
-#define Time 100.0
+#define Time 60.0
 #define PI 3.14159265358979323846
 
 #define Tmin 20     // Tiempos para el histograma de velocidades
@@ -68,30 +68,7 @@ void initial_conditions (double v_0) {
         v[i][0] = v_0 * cos(theta);          // Velocidades de módulo 1 y ángulos aleatorios
         v[i][1] = v_0 * sin(theta);
     }
-/*
-    srand(time(NULL));  // Inicializar la semilla para números aleatorios
 
-    for (int i = 0; i < N; i++) {
-        r[i][0] = (i % ((int)sqrt(N))) * ( L / ((int)sqrt(N))) + 0.25 + ((double)rand() / RAND_MAX) * 0.25; // Número aleatorio entre 0 y 0.5 
-        r[i][1] = (i / ((int)sqrt(N))) * ( L / ((int)sqrt(N))) + 0.25 + ((double)rand() / RAND_MAX) * 0.25;
-
-        double theta = ((double)rand() / (double)RAND_MAX) * 2 * PI;
-
-        v[i][0] = v_0 * cos(theta);          // Velocidades de módulo 1 y ángulos aleatorios
-        v[i][1] = v_0 * sin(theta);
-    }
-
-  */   
-  /*
-  int j=0;
-  for (int i = 0; i < N; i++)
-  {
-      if ((i % 4 == 0) && (i != 0))
-          j++;
-      r[i][0] = L / 8.0 + (L / 4.0) * (i % 4) - (L / 8.0) * (j % 2);
-      r[i][1] = L / 8.0 + (L / 4.0) * j;
-  }
- */
 }
 
 

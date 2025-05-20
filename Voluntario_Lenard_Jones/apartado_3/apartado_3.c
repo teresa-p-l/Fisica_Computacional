@@ -13,7 +13,7 @@
 #define k 1.0
 #define mass 1.0
 #define h 0.002
-#define Time 50
+#define Time 60
 #define PI 3.14159265358979323846
 #define nmom 10
 

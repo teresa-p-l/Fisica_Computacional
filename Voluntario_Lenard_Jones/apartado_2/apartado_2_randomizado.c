@@ -14,7 +14,7 @@
 #define mass 1.0
 #define v_0 1.0
 #define h 0.002
-#define Time 100.0
+#define Time 60.0
 #define PI 3.14159265358979323846
 
 #define Tmin 40     // Tiempos para el histograma de velocidades
@@ -57,8 +57,8 @@ void dist_min(double *r_i, double *r_j, double *R) {
 void initial_conditions () {
    
     for(int i = 0; i < N; i++) {
-        r[i][0] = (i % ((int)sqrt(N)+1))*L/((int)sqrt(N)+1);      // Posiciones aleatorias
-        r[i][1] = (i / ((int)sqrt(N)+1))*L/((int)sqrt(N)+1); 
+        r[i][0] = (i % (int)sqrt(N) + 1) * (L / ((int)sqrt(N) + 1)) + 1*(rand()/(double)RAND_MAX);
+        r[i][1] = (i / (int)sqrt(N) + 1) * (L / ((int)sqrt(N) + 1)) + 1*(rand()/(double)RAND_MAX);
 
         double theta = ((double)rand() / (double)RAND_MAX) * 2 * PI;
 

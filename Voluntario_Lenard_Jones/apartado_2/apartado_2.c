@@ -14,10 +14,10 @@
 #define k 1.0
 #define mass 1.0
 #define h 0.002
-#define Time 100
+#define Time 60
 #define PI 3.14159265358979323846
 
-#define Tmin 40     // Tiempos para el histograma de velocidades
+#define Tmin 30     // Tiempos para el histograma de velocidades
 #define Tmax 60
 
 
@@ -39,28 +39,7 @@ void periodic(double *r) {
     if (r[1] >= L)  r[1] -= L;
 
     if (r[1] < 0)  r[1] += L;
-
-    
-    
-
-/*    for (int u=0; u<1000000; u++){
-        if (r[0] >= L)  r[0] -= L;
-    
-        if (r[0] < 0)  r[0] += L;
-
-        if (r[1] >= L)  r[1] -= L;
-
-        if (r[1] < 0)  r[1] += L;
-    }
-
-*/
 }
-
-/*    if (r[0] >= L) while (r[0] >= L) r[0] -= L;
-    if (r[0] < 0) while (r[0] < 0) r[0] += L;
-    if (r[1] >= L) while (r[1] >= L) r[1] -= L;
-    if (r[1] < 0) while (r[1] < 0) r[1] += L;;*/
-
 
 
 // Función para calcular la distancia mínima entre dos puntos con condiciones periódicas
@@ -78,11 +57,6 @@ void dist_min(double *r_i, double *r_j, double *R) {
         if (R[1] < -L/2)  R[1] += L;
 
 
-/*    if (R[0] > L/2) while(R[0] > L/2) R[0] -= L;
-    if (R[0] < -L/2) while(R[0] < -L/2) R[0] += L;
-    if (R[1] > L/2) while(R[1] > L/2) R[1] -= L;
-    if (R[1] < -L/2) while(R[1] < -L/2) R[1] += L;*/
-
 }
 
 // Establecemos las condiciones iniciales 
@@ -90,8 +64,10 @@ void dist_min(double *r_i, double *r_j, double *R) {
 void initial_conditions (double v_0) {
    
     for(int i = 0; i < N; i++) {
-        r[i][0] = (i % ((int)sqrt(N)+1))*L/((int)sqrt(N)+1);      // Posiciones aleatorias
-        r[i][1] = (i / ((int)sqrt(N)+1))*L/((int)sqrt(N)+1); 
+        r[i][0] = (i % (int)sqrt(N) + 1) * (L / ((int)sqrt(N) + 1)) + 1*(rand()/(double)RAND_MAX);
+        r[i][1] = (i / (int)sqrt(N) + 1) * (L / ((int)sqrt(N) + 1)) + 1*(rand()/(double)RAND_MAX);
+       /* r[i][0] = (i % ((int)sqrt(N)+1))*L/((int)sqrt(N)+1);      // Posiciones aleatorias
+        r[i][1] = (i / ((int)sqrt(N)+1))*L/((int)sqrt(N)+1); */
 
         double theta = ((double)rand() / (double)RAND_MAX) * 2 * PI;
 
@@ -252,7 +228,7 @@ void compute_histogram_v(FILE *archivo_velocidades) {
 
 
 int main(void) {
-    double v_0=4.0; // Velocidad inicial
+    double v_0=2.0; // Velocidad inicial
 
 
         char nombre_archivo_posiciones[50]; // Buffer para el nombre del archivo

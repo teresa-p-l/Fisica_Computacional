@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-variable =4.0
+variable =2.0
 
 data = np.loadtxt(f'C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Lenard_Jones/apartado_2/datos_simulacion_v{variable}.txt')
 N, L, h, T, Time = int(data[0]), data[1], data[2], data[3], data[4]

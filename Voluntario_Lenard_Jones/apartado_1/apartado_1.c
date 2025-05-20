@@ -14,7 +14,7 @@
 #define mass 1.0
 #define v_0 1.0
 #define h 0.002
-#define Time 100.0
+#define Time 60.0
 #define PI 3.14159265358979323846
 
 #define Tmin 40     // Tiempos para el histograma de velocidades

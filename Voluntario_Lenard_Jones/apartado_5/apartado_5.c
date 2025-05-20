@@ -13,7 +13,7 @@
 #define k 1.0
 #define mass 1.0
 #define h 0.002
-#define Time 60
+#define Time 60.0
 #define PI 3.14159265358979323846
 
 #define Tmin 20     // Tiempos para el histograma de velocidades
@@ -59,9 +59,11 @@ void initial_conditions (double v_0) {
     // Se pueden cambiar las condiciones iniciales aquí para probar diferentes configuraciones
     
 
-    for(int i = 0; i < N; i++) {
-        r[i][0] = (i % ((int)sqrt(N))) * ( L / ((int)sqrt(N))) + 0.5;      // Posiciones aleatorias
-        r[i][1] = (i / ((int)sqrt(N))) * ( L / ((int)sqrt(N))) + 0.5; 
+    srand(time(NULL));  // Inicializar la semilla para números aleatorios
+
+    for (int i = 0; i < N; i++) {
+        r[i][0] = (i % ((int)sqrt(N))) * ( L / ((int)sqrt(N))) + 0.25 + ((double)rand() / RAND_MAX) * 0.25; // Número aleatorio entre 0 y 0.5 
+        r[i][1] = (i / ((int)sqrt(N))) * ( L / ((int)sqrt(N))) + 0.25 + ((double)rand() / RAND_MAX) * 0.25;
 
         double theta = ((double)rand() / (double)RAND_MAX) * 2 * PI;
 
@@ -69,6 +71,17 @@ void initial_conditions (double v_0) {
         v[i][1] = v_0 * sin(theta);
     }
 
+   
+  /*
+  int j=0;
+  for (int i = 0; i < N; i++)
+  {
+      if ((i % 4 == 0) && (i != 0))
+          j++;
+      r[i][0] = L / 8.0 + (L / 4.0) * (i % 4) - (L / 8.0) * (j % 2);
+      r[i][1] = L / 8.0 + (L / 4.0) * j;
+  }
+ */
 }
 
 
@@ -194,25 +207,6 @@ void compute_histogram_v(FILE *archivo_velocidades) {
 }
 
 
-void reescalar_v(double factor){
-    for (int i = 0; i < N; i++) {
-        v[i][0] *= factor;
-        v[i][1] *= factor;
-    }
-}
-
-// Función para calcular el cuadrado del desplazamiento respecto a su posición inicial
-
-double displacement(FILE *archivo_desplazamiento, double r_0[N][2]){
-    double dx, dy, d = 0.0;
-    for (int i = 0; i < N; i++) {
-        dx = r[i][0] - r_0[i][0];
-        dy = r[i][1] - r_0[i][1];
-        d += sqrt(dx*dx + dy*dy);                           //NO SÉ SI PONERLE UNA RAÍZ O NO //////////////////////////////////////////////////////////////////////////////////////////////////////
-    }
-    fprintf(archivo_desplazamiento, "%e\n", d/(double)N ); // Guardamos el desplazamiento medio al cuadrado
-}
-
 double probemos(){
     double probar = 0.0;
     for (int i = 0; i < N; i++) {
@@ -252,11 +246,6 @@ int main(void) {
         return 1;
     }
 
-    FILE *archivo_desplazamiento = fopen("desplazamiento.txt", "w");
-    if (archivo_desplazamiento == NULL) {
-        printf("Error al abrir el archivo de desplazamiento.\n");
-        return 1;
-    }
 
 
 
@@ -282,14 +271,12 @@ int main(void) {
     for (int step = 0; step < steps; step++) {
         verlet(archivo_posiciones);
         compute_energy(archivo_energia);
-        if ((step == 20/h) || (step == 30/h) || (step == 35/h) || (step == 45/h)) reescalar_v(1.5);
-   
-       // if ((step >= (int)(Tmin/h)) && (step <(int)(Tmax/h))){
+
+       //if ((step >= (int)(Tmin/h)) && (step <(int)(Tmax/h))){
             compute_histogram_v(archivo_velocidades); 
             V_promedio += compute_histogram_v_paT(); // Acumulamos la temperatura
             paprobar += probemos(); // Acumulamos la temperatura
         //}
-        displacement(archivo_desplazamiento, r_0);
     }
 
 
@@ -309,7 +296,6 @@ int main(void) {
     fclose(archivo_posiciones);
     fclose(archivo_energia);
     fclose(archivo_velocidades);
-    fclose(archivo_desplazamiento);
     printf("Simulación completada. Resultados guardados en archivos de salida.\n");
 
     return 0;
