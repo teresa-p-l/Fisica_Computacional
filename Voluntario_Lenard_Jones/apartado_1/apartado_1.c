@@ -56,9 +56,9 @@ void dist_min(double *r_i, double *r_j, double *R) {
 
 void initial_conditions () {
    
-    for(int i = 0; i < N; i++) {
-        r[i][0] = (i % ((int)sqrt(N)+1))*L/((int)sqrt(N)+1);      // Posiciones aleatorias
-        r[i][1] = (i / ((int)sqrt(N)+1))*L/((int)sqrt(N)+1); 
+    for (int i = 0; i < N; i++) {
+        r[i][0] = (i % (int)sqrt(N) + 1) * (L / ((int)sqrt(N) + 1)) + 1*(rand()/(double)RAND_MAX);
+        r[i][1] = (i / (int)sqrt(N) + 1) * (L / ((int)sqrt(N) + 1)) + 1*(rand()/(double)RAND_MAX);
 
         double theta = ((double)rand() / (double)RAND_MAX) * 2 * PI;
 
@@ -79,7 +79,7 @@ void initial_conditions () {
         v[i][1] = v_0 * sin(theta);
     }
 */
-        
+   
 }
 
 
