@@ -13,7 +13,7 @@
 #define k 1.0
 #define mass 1.0
 #define h 0.002
-#define Time 300.0
+#define Time 250.0
 #define PI 3.14159265358979323846
 
 #define Tmin 20     // Tiempos para el histograma de velocidades
@@ -282,7 +282,7 @@ int main(void) {
     for (int step = 0; step < steps; step++) {
         verlet(archivo_posiciones);
         compute_energy(archivo_energia);
-        if ((step == 20/h) || (step == 40/h) || (step == 60/h) || (step == 80/h) || (step == 100/h) || (step == 120/h) || (step == 140/h) || (step == 160/h) || (step == 180/h) || (step == 200/h) || (step == 220/h) || (step == 240/h) || (step == 260/h) || (step == 280/h)) reescalar_v(1.1);
+        if ((step == 20/h) || (step == 40/h) || (step == 60/h) || (step == 80/h) || (step == 100/h) || (step == 120/h) || (step == 140/h) || (step == 160/h) || (step == 180/h) || (step == 200/h) || (step == 220/h) || (step == 240/h)) reescalar_v(1.1);
    
        // if ((step >= (int)(Tmin/h)) && (step <(int)(Tmax/h))){
             compute_histogram_v(archivo_velocidades); 

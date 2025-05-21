@@ -56,41 +56,55 @@ void dist_min(double *r_i, double *r_j, double *R) {
 
 
 void inicializar_posiciones_hexagonal(double r[][2]) {
-    // Para una estructura hexagonal exterior de 16 partículas
-    // donde cada partícula tiene exactamente 3 vecinos
+    // Factor de escala para ajustar a la caja de tamaño L
+    double escala = L / 4.0;
     
-    // Definimos las coordenadas de los vértices de un patrón 4×4
-    // Este arreglo contiene las posiciones x,y de cada partícula
-    double posiciones[16][2] = {
-        // Primera fila de nuestro patrón
-        {1.0*L/4, 0.0*L/4},
-        {2.0*L/4, 0.0*L/4},
-        {3.0*L/4, 0.0*L/4},
-        {0.0*L/4, 0.0*L/4}, // Conecta con la primera por condición periódica
+    // Parámetros para crear la red hexagonal
+    double hex_size = escala;  // Tamaño del hexágono
+    
+    // Constantes para la geometría hexagonal
+    double dx = hex_size;      // Distancia horizontal entre centros
+    double dy = hex_size * sqrt(3); // Distancia vertical entre centros
+    
+    // Posiciones de las partículas que forman los vértices de los hexágonos
+    // Esta estructura crea un patrón de panal de abeja completo
+    double posiciones[12][2] = {
+        // Primer hexágono
+        {1.0, 0.0},            // 0
+        {0.5, 0.866},          // 1 
+        {1.5, 0.866},          // 2
         
-        // Segunda fila
-        {0.5*L/4, 1.0*L/4},
-        {2.5*L/4, 1.0*L/4},
-        {3.5*L/4, 1.0*L/4}, 
-        {1.5*L/4, 1.0*L/4},
+        // Segundo hexágono (compartiendo vértices con el primero)
+        {2.0, 0.0},            // 3
+        {2.5, 0.866},          // 4
         
-        // Tercera fila
-        {1.0*L/4, 2.0*L/4},
-        {2.0*L/4, 2.0*L/4},
-        {3.0*L/4, 2.0*L/4},
-        {0.0*L/4, 2.0*L/4}, // Conecta con la novena por condición periódica
+        // Tercer hexágono (debajo del primero)
+        {0.5, 2.598},          // 5
+        {1.5, 2.598},          // 6
         
-        // Cuarta fila
-        {0.5*L/4, 3.0*L/4},
-        {2.5*L/4, 3.0*L/4},
-        {3.5*L/4, 3.0*L/4},
-        {1.5*L/4, 3.0*L/4}
+        // Cuarto hexágono (compartiendo vértices con el tercero)
+        {2.5, 2.598},          // 7
+        
+        // Completando la estructura periódica
+        {0.0, 1.732},          // 8
+        {3.0, 1.732},          // 9
+        {1.0, 3.464},          // 10
+        {2.0, 3.464}           // 11
     };
-    
-    // Asignar las posiciones al arreglo r
+
+    // Escalamos y ajustamos las posiciones a la caja
     for (int i = 0; i < N; i++) {
-        r[i][0] = posiciones[i][0];
-        r[i][1] = posiciones[i][1];
+        // Escalamos las coordenadas
+        r[i][0] = posiciones[i][0] * escala;
+        r[i][1] = posiciones[i][1] * escala;
+        
+        // Aplicamos condiciones periódicas
+        r[i][0] = fmod(r[i][0], L);
+        r[i][1] = fmod(r[i][1], L);
+        
+        // Ajustamos valores negativos
+        if (r[i][0] < 0) r[i][0] += L;
+        if (r[i][1] < 0) r[i][1] += L;
     }
 }
 
