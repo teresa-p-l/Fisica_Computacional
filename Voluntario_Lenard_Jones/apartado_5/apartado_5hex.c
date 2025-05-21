@@ -53,23 +53,46 @@ void dist_min(double *r_i, double *r_j, double *R) {
 
 // Establecemos las condiciones iniciales 
 
-void initial_conditions (double v_0) {
-   
-    // Inicializamos las posiciones y velocidades de las partículas
-    // Se pueden cambiar las condiciones iniciales aquí para probar diferentes configuraciones
+
+
+void inicializar_posiciones_hexagonal(double r[][2]) {
+    // Para una estructura hexagonal exterior de 16 partículas
+    // donde cada partícula tiene exactamente 3 vecinos
     
-
-  int j=0;
-  for (int i = 0; i < N; i++)
-  {
-      if ((i % 4 == 0) && (i != 0))
-          j++;
-      r[i][0] = L / 8.0 + (L / 4.0) * (i % 4) - (L / 8.0) * (j % 2);
-      r[i][1] = L / 8.0 + (L / 4.0) * j;
-  }
-
+    // Definimos las coordenadas de los vértices de un patrón 4×4
+    // Este arreglo contiene las posiciones x,y de cada partícula
+    double posiciones[16][2] = {
+        // Primera fila de nuestro patrón
+        {1.0*L/4, 0.0*L/4},
+        {2.0*L/4, 0.0*L/4},
+        {3.0*L/4, 0.0*L/4},
+        {0.0*L/4, 0.0*L/4}, // Conecta con la primera por condición periódica
+        
+        // Segunda fila
+        {0.5*L/4, 1.0*L/4},
+        {2.5*L/4, 1.0*L/4},
+        {3.5*L/4, 1.0*L/4}, 
+        {1.5*L/4, 1.0*L/4},
+        
+        // Tercera fila
+        {1.0*L/4, 2.0*L/4},
+        {2.0*L/4, 2.0*L/4},
+        {3.0*L/4, 2.0*L/4},
+        {0.0*L/4, 2.0*L/4}, // Conecta con la novena por condición periódica
+        
+        // Cuarta fila
+        {0.5*L/4, 3.0*L/4},
+        {2.5*L/4, 3.0*L/4},
+        {3.5*L/4, 3.0*L/4},
+        {1.5*L/4, 3.0*L/4}
+    };
+    
+    // Asignar las posiciones al arreglo r
+    for (int i = 0; i < N; i++) {
+        r[i][0] = posiciones[i][0];
+        r[i][1] = posiciones[i][1];
+    }
 }
-
 
 // Función que calcula la aceleración por el potencial de Lennard-Jones
 
@@ -236,7 +259,7 @@ int main(void) {
 
 
     double v_0 = 0.0;
-    initial_conditions (v_0); 
+    inicializar_posiciones_hexagonal (r); 
     double paprobar = 0.0; 
     double r_0[N][2]; // Guardamos las posiciones iniciales
 

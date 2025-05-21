@@ -1,0 +1,13 @@
+n	10	15	20	25	30
+pc  0   0   0   0   0		
+pco1    0	0	0	0	0
+pco2    0	0	0	0	0
+pco3	0	0	0	0	0
+pcofast	0	0	0	0	0
+pcomp	0	0	0	0	0
+Joel	0	0	0	0	0
+joelo1	0	0	0	0	0
+joelo2	0	0	0	0	0
+joelo3	0	0	0	0	0
+jolfast	0	0	0	0	0
+joelomp	0	0	0	0	0
