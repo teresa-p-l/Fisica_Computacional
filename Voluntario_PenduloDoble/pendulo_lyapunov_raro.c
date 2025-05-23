@@ -13,8 +13,8 @@
 
 void condiciones_iniciales(double *y){
 
-        y[0]=0.10;  //Phi
-        y[1]=0.3;   //Psi
+        y[0]=pi;  //Phi
+        y[1]=pi;   //Psi
         y[2]=sqrt(E+2*g*cos(y[0])+g*cos(y[1]));     //Velocidad de Phi 
         y[3]=0;                                     //Velocidad de Psi
 }
@@ -119,14 +119,15 @@ int main(void)
 
 
     //Inicializo el vector y perturbado a partir de la perturbación introducida
-    for (i = 0; i < 4; i++) 
-        ypert[i] = y[i] + perturbacion[i];
+    //for (i = 0; i < 4; i++) 
+      //  ypert[i] = y[i] + perturbacion[i];
     
 
     //Para calcular los coeficientes de Lyapunov para diferentes tiempos dejamos este bucle temporal en el que cada vez que se recorre se inicializan las variables
     //necesarias para ccalcular los coeficientes de Lyapunov. 
     //Por el contrario, si no queremos calcularlos y ver solo la animación, dejamos solo la aplicación del algoritmo de Runge-Kutta (while) para el vector y, terminando
     //por imprimir las posiciones del péndulo e incrementando un paso temporal la variable t. (t+=h)
+
     for ( tf = 1000; tf <= 10000; tf+=1000)
     {
         t=0;
@@ -180,6 +181,8 @@ int main(void)
 
             fprintf(archivo_phi_dphi, "%lf, %lf", y[0], y[2]);
             fprintf(archivo_phi_dphi, "\n");
+
+            
 
             
             //Procedo a computar las trayectorias perturbadas
@@ -238,7 +241,7 @@ int main(void)
         exponente_lyapunov=sumadivergente/(n*h) ;
         fprintf(f4,"%lf, %lf",tf, exponente_lyapunov);
         fprintf(f4, "\n");
-    }
+    //}
             
     fclose(archivo_posiciones);
     fclose(archivo_phi_psi);

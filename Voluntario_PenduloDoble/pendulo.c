@@ -6,17 +6,18 @@
 
 #define g 9.80665
 #define pi 3.14159265358979323846
-#define h 0.01        //Paso temporal
-#define E 1.0         //Energía total del sistema
+#define h 0.01        // Paso temporal
+#define E 15.0         // Energía total del sistema
+#define tf 100        // Tiempo total de la simulacion
 
 
 
 void condiciones_iniciales(double *y){
 
-        y[0]=0.10;  //Phi
-        y[1]=0.3;   //Psi
-        y[2]=sqrt(E+2*g*cos(y[0])+g*cos(y[1]));     //Velocidad de Phi 
-        y[3]=0;                                     //Velocidad de Psi
+    y[0]=pi/16;   //Phi
+    y[1]=pi/16;   //Psi
+    y[2]=sqrt(-3*g+E+2*g*cos(y[0])+g*cos(y[1]));     //Velocidad de Phi 
+    y[3]=0;                                       //Velocidad de Psi
 }
 
 // Hacemos 4 funciones para calcular las derivadas primera y segunda de phi y psi para que el Runge-Kutta sea más sencillo
@@ -54,13 +55,24 @@ double f_ddpsi(double phi, double psi, double dphi, double dpsi)    // Calcula l
 
 int main(void)
 {
+    char nombre_archivo_posiciones[50]; // Buffer para el nombre del archivo
+    sprintf(nombre_archivo_posiciones, "posiciones_E%.1f.txt", E); // Construir el nombre dinámicamente
 
-    FILE *archivo_posiciones=fopen("pendulodoble.txt", "w"); 
-    FILE *archivo_phi_psi=fopen("poincare_phi_psi_E=15.txt", "w");
-    FILE *archivo_phi_dphi=fopen("poincare_phi_phipunto_E=15.txt", "w");
+    char nombre_archivo__phi_psi[50]; // Buffer para el nombre del archivo
+    sprintf(nombre_archivo__phi_psi, "poincare_phi_psi_E%.1f.txt", E); // Construir el nombre dinámicamente
 
-    
-    //clock_t begin= clock(); //Empiezo a contar el tiempo de simulación
+    char nombre_archivo_phi_dphi[50]; // Buffer para el nombre del archivo
+    sprintf(nombre_archivo_phi_dphi, "poincare_phi_dphi_E%.1f.txt", E); // Construir el nombre dinámicamente
+
+    char nombre_archivo_psi_dpsi[50]; // Buffer para el nombre del archivo
+    sprintf(nombre_archivo_psi_dpsi, "poincare_psi_dpsi_E%.1f.txt", E); // Construir el nombre dinámicamente
+
+    FILE *archivo_posiciones=fopen(nombre_archivo_posiciones, "w");;
+    FILE *archivo_phi_psi=fopen(nombre_archivo__phi_psi, "w");;
+    FILE *archivo_phi_dphi=fopen(nombre_archivo_phi_dphi, "w");;
+    FILE *archivo_psi_dpsi=fopen(nombre_archivo_psi_dpsi, "w");;
+
+
 
     // Definimos los vectores y variables que vamos a necesitar
 
@@ -70,7 +82,6 @@ int main(void)
 
     int i, j; //Contadores
     double t; //Contador de tiempo
-    double tf; //Tiempo final de la simulación
 
     
     double x1, y1;      // Posiciones de la primera masa
@@ -78,13 +89,6 @@ int main(void)
 
 
 
-
-   
-    
-
-    //Establecemos las variables que regulan el tiempo de simulación
-    tf=100;
-    t=0;
 
 
     //Calculo e imprimo las posiciones iniciales
@@ -154,6 +158,9 @@ int main(void)
         fprintf(archivo_phi_dphi, "%lf, %lf", y[0], y[2]);
         fprintf(archivo_phi_dphi, "\n");
 
+        fprintf(archivo_psi_dpsi, "%lf, %lf", y[1], y[3]);
+        fprintf(archivo_psi_dpsi, "\n");
+
             
             
       
@@ -167,10 +174,6 @@ int main(void)
     fclose(archivo_posiciones);
     fclose(archivo_phi_psi);
     fclose(archivo_phi_dphi);
-     //Calculo el tiempo de ejecución
-    //clock_t end=clock();
-    //double tiempo= (double) (end-begin)/ CLOCKS_PER_SEC;
-    //printf("Tiempo de compilacion=%lf \n", tiempo);
-
+    fclose(archivo_psi_dpsi);
     return 0;
 }
