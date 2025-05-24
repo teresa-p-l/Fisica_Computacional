@@ -20,7 +20,7 @@ void condiciones_iniciales(double *y, double *ypert, double E){
         y[2]=sqrt(-3*g+E+2*g*cos(y[0])+g*cos(y[1]));     //Velocidad de Phi 
         y[3]=0;                                     //Velocidad de Psi
 
-        ypert[0]=pi/16 +0.1;   //Psi
+        ypert[0]=pi/16 + 0.000001;   //Psi
         ypert[1]=pi/16;   //Psi         //Psi
         ypert[2]=sqrt(-3*g+E+2*g*cos(y[0])+g*cos(y[1]));         //Velocidad de Phi
         ypert[3]=0;         //Velocidad de Psi
@@ -110,7 +110,6 @@ int main(void)
 
     double delta = sqrt( pow((y[0]-ypert[0]),2) + pow((y[1]-ypert[1]),2) + pow((y[2]-ypert[2]),2) + pow((y[3]-ypert[3]),2) );
 
-    printf( "%lf, %lf, %lf, %lf  \n", ypert[0]-y[0], ypert[1]-y[1], ypert[2]-y[2], ypert[3]-y[3]);
 
     fprintf(archivo_distancia, "%lf \n", delta);
 
@@ -183,7 +182,7 @@ int main(void)
 
             // Calulamos la distancia entre las trayectorias y las guardamos
         delta = sqrt( pow((y[0]-ypert[0]),2) + pow((y[1]-ypert[1]),2) + pow((y[2]-ypert[2]),2) + pow((y[3]-ypert[3]),2) );
-
+        //delta = sqrt( pow((y[0]-ypert[0]),2)  + pow((y[2]-ypert[2]),2) );
 
 
         fprintf(archivo_distancia, "%lf \n", delta);

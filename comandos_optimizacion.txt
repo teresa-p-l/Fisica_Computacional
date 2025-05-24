@@ -19,3 +19,21 @@ $env:OMP_NUM_THREADS = numeroquequieras; measure-Command { .\nombrepuntoxe.exe }
 en Joel, en una linea aparte antes de poner el time:
 export OMP_NUM_THREADS=numeroquequieras
 time ./nombrepuntoexe  (esto en otra línea)
+
+
+
+
+gcc codigo_base10.c -o codigo_base10 -lm
+gcc codigo_base15.c -o codigo_base15 -lm
+gcc codigo_base20.c -o codigo_base20 -lm
+gcc codigo_base25.c -o codigo_base25 -lm
+gcc codigo_base30.c -o codigo_base30 -lm
+gcc codigo_base35.c -o codigo_base35 -lm
+
+
+time ./codigo_base10
+time ./codigo_base15
+time ./codigo_base20
+time ./codigo_base25
+time ./codigo_base30
+time ./codigo_base35
