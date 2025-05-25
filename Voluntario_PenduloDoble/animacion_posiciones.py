@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from matplotlib.patches import Circle, Rectangle
 import os
+E=10.0
 
 # Función para leer el archivo de coordenadas
 def leer_coordenadas(nombre_archivo):
@@ -95,21 +96,19 @@ def animar_pendulo_doble(frames):
     return fig, ani
 
 # Función principal
-def main():
-    # Solicitar el nombre del archivo
-    nombre_archivo = "C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/posiciones.txt"
+
+# Solicitar el nombre del archivo
+nombre_archivo = f"C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/posicionesTXT/posiciones_E{E}.txt"
     
-    # Leer las coordenadas
-    frames = leer_coordenadas(nombre_archivo)
+# Leer las coordenadas
+frames = leer_coordenadas(nombre_archivo)
     
-    if not frames:
-        print("No se pudieron cargar coordenadas del archivo.")
-        return
+
     
-    print(f"Se cargaron {len(frames)} frames de animación.")
+print(f"Se cargaron {len(frames)} frames de animación.")
     
-    # Crear la animación
-    fig, ani = animar_pendulo_doble(frames)
+# Crear la animación
+fig, ani = animar_pendulo_doble(frames)
     
     # Guardar la animación como archivo GIF o mostrarla
 
@@ -117,7 +116,4 @@ def main():
     #ani.save(f"C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/animacion.mp4", writer='pillow', fps=20)
     #print(f"Animación guardada como {nombre_salida}.gif")
 
-    plt.show()
-
-if __name__ == "__main__":
-    main()
+plt.show()

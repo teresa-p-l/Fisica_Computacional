@@ -15,15 +15,15 @@
 
 void condiciones_iniciales(double *y, double *ypert, double E){
 
-        y[0]=pi/16;   //Phi
-        y[1]=pi/16;   //Psi
+        y[0]=0.1;   //Phi
+        y[1]=0.3;   //Psi
         y[2]=sqrt(-3*g+E+2*g*cos(y[0])+g*cos(y[1]));     //Velocidad de Phi 
         y[3]=0;                                     //Velocidad de Psi
 
-        ypert[0]=pi/16 + 0.000001;   //Psi
-        ypert[1]=pi/16;   //Psi         //Psi
-        ypert[2]=sqrt(-3*g+E+2*g*cos(y[0])+g*cos(y[1]));         //Velocidad de Phi
-        ypert[3]=0;         //Velocidad de Psi
+        ypert[0]=0.1 + 0.000001;   //Psi
+        ypert[1]=0.3 + 0.000001;   //Psi         //Psi
+        ypert[2]=sqrt(-3*g+E+2*g*cos(y[0])+g*cos(y[1])) + 0.000001;         //Velocidad de Phi
+        ypert[3]= 0.00000;         //Velocidad de Psi
 }
 
 // Hacemos 4 funciones para calcular las derivadas primera y segunda de phi y psi para que el Runge-Kutta sea más sencillo
@@ -84,6 +84,23 @@ int main(void)
         return 1;
     }
 
+    char nombre_archivo_lambda[50]; // Buffer para el nombre del archivo
+    sprintf(nombre_archivo_lambda, "c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/perturbaciones/lambda_%.0f.txt",E); // Construir el nombre dinámicamente
+
+    FILE *archivo_lambda=fopen(nombre_archivo_lambda, "w");
+    if (archivo_lambda == NULL) {
+        perror("Error al abrir el archivo");
+        return 1;
+    }
+
+    char nombre_archivo_t[50]; // Buffer para el nombre del archivo
+    sprintf(nombre_archivo_t, "c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/perturbaciones/t_%.0f.txt",E); // Construir el nombre dinámicamente
+
+    FILE *archivo_t=fopen(nombre_archivo_t, "w");
+    if (archivo_t == NULL) {
+        perror("Error al abrir el archivo");
+        return 1;
+    }
 
 
 
@@ -94,6 +111,7 @@ int main(void)
             
     double ypert[4];
     double kpert[4][4];
+    double lambda = 0;
 
     int i, j; //Contadores
     double t = 0; //Contador de tiempo
@@ -109,7 +127,7 @@ int main(void)
     condiciones_iniciales(y, ypert, E);
 
     double delta = sqrt( pow((y[0]-ypert[0]),2) + pow((y[1]-ypert[1]),2) + pow((y[2]-ypert[2]),2) + pow((y[3]-ypert[3]),2) );
-
+    double delta0 = sqrt( pow((y[0]-ypert[0]),2) + pow((y[1]-ypert[1]),2) + pow((y[2]-ypert[2]),2) + pow((y[3]-ypert[3]),2) );
 
     fprintf(archivo_distancia, "%lf \n", delta);
 
@@ -187,13 +205,23 @@ int main(void)
 
         fprintf(archivo_distancia, "%lf \n", delta);
            //Añado un paso temporal
+
+        fprintf(archivo_t, "%f \n", t); 
+         
         t+=h;
-        
+        if ((199.99 < t)&&(200.001>t)){fprintf(archivo_lambda, "%f \n", log(delta/delta0)/t);}
+        else if ((399.99 < t)&&(401.001>t)){fprintf(archivo_lambda, "%f \n", log(delta/delta0)/t);}
+        else if ((599.99 < t)&&(601.001>t)){fprintf(archivo_lambda, "%f \n", log(delta/delta0)/t);}
+        else if ((799.99 < t)&&(801.001>t)){fprintf(archivo_lambda, "%f \n", log(delta/delta0)/t);}
+        else if ((999.99 < t)&&(1001.001>t)){fprintf(archivo_lambda, "%f \n", log(delta/delta0)/t);}
+
 
 
     }
+
+
         
-     fclose(archivo_distancia);
+    fclose(archivo_distancia);
 
 }    
     return 0;

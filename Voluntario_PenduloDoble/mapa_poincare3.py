@@ -28,12 +28,12 @@ def load_data_from_file(filename):
     return x, y#, errx, erry
 
 # Cambiar nombre del archivo de datos para cambiar los datos recogidos
-x, y = load_data_from_file("C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincare_psi_dpsi_E1.0.txt")
-x1, y1 = load_data_from_file("C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincare_psi_dpsi_E3.0.txt")
-x2, y2 = load_data_from_file("C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincare_psi_dpsi_E5.0.txt")
-x3, y3 = load_data_from_file("C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincare_psi_dpsi_E10.0.txt")
-x4, y4 = load_data_from_file("C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincare_psi_dpsi_E15.0.txt")
-#x5, y5 = load_data_from_file("C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincare_psi_dpsi_E20.0.txt")
+x, y = load_data_from_file("C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincareTXT/poincare_psi_dpsi_E1.0.txt")
+x1, y1 = load_data_from_file("C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincareTXT/poincare_psi_dpsi_E3.0.txt")
+x2, y2 = load_data_from_file("C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincareTXT/poincare_psi_dpsi_E5.0.txt")
+x3, y3 = load_data_from_file("C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincareTXT/poincare_psi_dpsi_E10.0.txt")
+x4, y4 = load_data_from_file("C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincareTXT/poincare_psi_dpsi_E15.0.txt")
+#x5, y5 = load_data_from_file("C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincareTXT/poincare_psi_dpsi_E20.0.txt")
 
 #def line_fit(x, slope, intercept):
   #  return slope * x + intercept

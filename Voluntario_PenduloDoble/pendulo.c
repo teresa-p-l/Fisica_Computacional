@@ -7,7 +7,7 @@
 #define g 9.80665
 #define pi 3.14159265358979323846
 #define h 0.01        // Paso temporal
-#define E 15.0         // Energía total del sistema
+#define E 20.0         // Energía total del sistema
 #define tf 100        // Tiempo total de la simulacion
 
 
@@ -55,22 +55,39 @@ double f_ddpsi(double phi, double psi, double dphi, double dpsi)    // Calcula l
 
 int main(void)
 {
-    char nombre_archivo_posiciones[50]; // Buffer para el nombre del archivo
-    sprintf(nombre_archivo_posiciones, "posiciones_E%.1f.txt", E); // Construir el nombre dinámicamente
+    char nombre_archivo_posiciones[120]; // Buffer para el nombre del archivo
+    sprintf(nombre_archivo_posiciones, "c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/posicionesTXT/posiciones_E%.1f.txt", E); // Construir el nombre dinámicamente
+    FILE *archivo_posiciones=fopen(nombre_archivo_posiciones, "w");
+    // Verificar que todos los archivos se abrieron correctamente
+    if (archivo_posiciones == NULL) {
+        printf("Error: No se pudo abrir archivo_posiciones\n");
+        return 1;
+    }
 
-    char nombre_archivo__phi_psi[50]; // Buffer para el nombre del archivo
-    sprintf(nombre_archivo__phi_psi, "poincare_phi_psi_E%.1f.txt", E); // Construir el nombre dinámicamente
+    char nombre_archivo_phi_psi[50]; // Buffer para el nombre del archivo
+    sprintf(nombre_archivo_phi_psi, "c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincareTXT/poincare_phi_psi_E%.1f.txt", E); // Construir el nombre dinámicamente
+    FILE *archivo_phi_psi=fopen(nombre_archivo_phi_psi, "w");
+    if (archivo_phi_psi == NULL) {
+        printf("Error: No se pudo abrir archivo_phi_psi\n");
+        return 1;
+    }
 
     char nombre_archivo_phi_dphi[50]; // Buffer para el nombre del archivo
-    sprintf(nombre_archivo_phi_dphi, "poincare_phi_dphi_E%.1f.txt", E); // Construir el nombre dinámicamente
+    sprintf(nombre_archivo_phi_dphi, "c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincareTXT/poincare_phi_dphi_E%.1f.txt", E); // Construir el nombre dinámicamente
+    FILE *archivo_phi_dphi=fopen(nombre_archivo_phi_dphi, "w");
+    if (archivo_phi_dphi == NULL) {
+        printf("Error: No se pudo abrir archivo_phi_dphi\n");
+        return 1;
+    }
 
     char nombre_archivo_psi_dpsi[50]; // Buffer para el nombre del archivo
-    sprintf(nombre_archivo_psi_dpsi, "poincare_psi_dpsi_E%.1f.txt", E); // Construir el nombre dinámicamente
+    sprintf(nombre_archivo_psi_dpsi, "c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincareTXT/poincare_psi_dpsi_E%.1f.txt", E); // Construir el nombre dinámicamente
+    FILE *archivo_psi_dpsi=fopen(nombre_archivo_psi_dpsi, "w");
+    if (archivo_psi_dpsi == NULL) {
+        printf("Error: No se pudo abrir archivo_psi_dpsi\n");
+        return 1;
+    }
 
-    FILE *archivo_posiciones=fopen(nombre_archivo_posiciones, "w");;
-    FILE *archivo_phi_psi=fopen(nombre_archivo__phi_psi, "w");;
-    FILE *archivo_phi_dphi=fopen(nombre_archivo_phi_dphi, "w");;
-    FILE *archivo_psi_dpsi=fopen(nombre_archivo_psi_dpsi, "w");;
 
 
 
@@ -81,7 +98,7 @@ int main(void)
 
 
     int i, j; //Contadores
-    double t; //Contador de tiempo
+    double t = 0; //Contador de tiempo
 
     
     double x1, y1;      // Posiciones de la primera masa
