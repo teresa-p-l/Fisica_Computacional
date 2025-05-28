@@ -20,12 +20,12 @@ delta5 = np.loadtxt(archivo5)
 delta10 = np.loadtxt(archivo10)
 delta15 = np.loadtxt(archivo15)
 
-t = np.arange(len(delta1)) * dt       # crea el vector de tiempos
+t = np.arange(len(delta3)) * dt       # crea el vector de tiempos
 
 
 
 def exponencial(x, a, b):
-    return 0.000001*np.exp(a*x)
+    return  0.000002*np.exp(a*x)
 
 params1, cov = curve_fit(exponencial, t, delta1)
 a1, b1 = params1

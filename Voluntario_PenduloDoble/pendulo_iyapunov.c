@@ -129,6 +129,8 @@ int main(void)
     double delta = sqrt( pow((y[0]-ypert[0]),2) + pow((y[1]-ypert[1]),2) + pow((y[2]-ypert[2]),2) + pow((y[3]-ypert[3]),2) );
     double delta0 = sqrt( pow((y[0]-ypert[0]),2) + pow((y[1]-ypert[1]),2) + pow((y[2]-ypert[2]),2) + pow((y[3]-ypert[3]),2) );
 
+    printf(" %lf \n", delta0);
+    
     fprintf(archivo_distancia, "%lf \n", delta);
 
 
@@ -209,13 +211,6 @@ int main(void)
         fprintf(archivo_t, "%f \n", t); 
          
         t+=h;
-        if ((199.99 < t)&&(200.001>t)){fprintf(archivo_lambda, "%f \n", log(delta/delta0)/t);}
-        else if ((399.99 < t)&&(401.001>t)){fprintf(archivo_lambda, "%f \n", log(delta/delta0)/t);}
-        else if ((599.99 < t)&&(601.001>t)){fprintf(archivo_lambda, "%f \n", log(delta/delta0)/t);}
-        else if ((799.99 < t)&&(801.001>t)){fprintf(archivo_lambda, "%f \n", log(delta/delta0)/t);}
-        else if ((999.99 < t)&&(1001.001>t)){fprintf(archivo_lambda, "%f \n", log(delta/delta0)/t);}
-
-
 
     }
 
