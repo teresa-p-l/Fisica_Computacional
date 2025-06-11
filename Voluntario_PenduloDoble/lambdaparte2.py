@@ -46,6 +46,6 @@ plt.title('Separación entre trayectorias')
 plt.grid(True)
 plt.tight_layout()
 plt.legend()
-plt.savefig("C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/plots/delta_t_2.png")
+plt.savefig("C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/plots/delta_t_2cambiandoe.png")
 plt.show()
 

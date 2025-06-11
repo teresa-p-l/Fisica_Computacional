@@ -16,12 +16,12 @@
 void condiciones_iniciales(double *y, double *ypert, double E){
 
         y[0]=0.1;   //Phi
-        y[1]=0.3;   //Psi
+        y[1]=0.6;   //Psi
         y[2]=sqrt(-3*g+E+2*g*cos(y[0])+g*cos(y[1]));     //Velocidad de Phi 
         y[3]=0;                                     //Velocidad de Psi
 
-        ypert[0]=0.1;   //Psi
-        ypert[1]=0.25;   //Psi         //Psi
+        ypert[0]=0.11;   //Psi
+        ypert[1]=0.6;   //Psi         //Psi
         ypert[2]=sqrt(-3*g+E+2*g*cos(y[0])+g*cos(y[1])) + 0.00000;         //Velocidad de Phi
         ypert[3]= 0.00000;         //Velocidad de Psi
 }
@@ -124,7 +124,7 @@ double E=15.0;
 
     fprintf(archivo_distancia, "%lf \n", delta);
 
-    for (int tiempototal = 100; tiempototal < 1000; tiempototal+=10) {
+    for (int tiempototal = 100; tiempototal < 1000; tiempototal+=100) {
         t=0;
         delta = 0.0;
         lyapu = 0.0;
