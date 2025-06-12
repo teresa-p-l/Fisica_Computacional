@@ -20,10 +20,10 @@ void condiciones_iniciales(double *y, double *ypert, double E){
         y[2]=sqrt(-3*g+E+2*g*cos(y[0])+g*cos(y[1]));     //Velocidad de Phi 
         y[3]=0;                                     //Velocidad de Psi
 
-        ypert[0]=0.1 + 0.000001;   //Psi
-        ypert[1]=0.3 + 0.000001;   //Psi         //Psi
-        ypert[2]=sqrt(-3*g+E+2*g*cos(y[0])+g*cos(y[1])) + 0.000001;         //Velocidad de Phi
-        ypert[3]= 0.00000;         //Velocidad de Psi
+        ypert[0]=0.1 + 0.000003;   //Psi
+        ypert[1]=0.3 + 0.000003;   //Psi         //Psi
+        ypert[2]=sqrt(-3*g+E+2*g*cos(y[0])+g*cos(y[1])) + 0.000003;         //Velocidad de Phi
+        ypert[3]= 0.000003;         //Velocidad de Psi
 }
 
 // Hacemos 4 funciones para calcular las derivadas primera y segunda de phi y psi para que el Runge-Kutta sea más sencillo

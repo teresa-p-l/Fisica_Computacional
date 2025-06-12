@@ -13,7 +13,7 @@ archivo15 = "c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_Pendu
 dt = 0.01               # paso de integración usado en la simulación
 
 # === LECTURA DEL ARCHIVO ===
-delta1 = np.loadtxt(archivo1)          # lee los deltas: un delta por línea
+#delta1 = np.loadtxt(archivo1)          # lee los deltas: un delta por línea
 delta3 = np.loadtxt(archivo3)
 delta5 = np.loadtxt(archivo5)
 delta10 = np.loadtxt(archivo10)
@@ -21,7 +21,7 @@ delta15 = np.loadtxt(archivo15)
 #delta50 = np.loadtxt(archivo50)
 
 
-t = np.arange(len(delta1)) * 10       # crea el vector de tiempos
+t = np.arange(len(delta3)) * 10       # crea el vector de tiempos
 
 
 
@@ -31,7 +31,7 @@ t = np.arange(len(delta1)) * 10       # crea el vector de tiempos
 plt.figure(figsize=(6, 4))
 transparencia = 0.4
 
-plt.plot(t, delta1, label='E = 1.0', color='blue',alpha=transparencia)
+#plt.plot(t, delta1, label='E = 1.0', color='blue',alpha=transparencia)
 plt.plot(t, delta3, label='E = 3.0', color='green',alpha=transparencia)
 plt.plot(t, delta5, label='E = 5.0', color='purple',alpha=transparencia)
 plt.plot(t, delta10, label='E = 10.0', color='red',alpha=transparencia)

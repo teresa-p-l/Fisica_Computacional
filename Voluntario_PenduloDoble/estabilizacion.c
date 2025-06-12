@@ -7,14 +7,15 @@
 #define g 9.80665
 #define pi 3.14159265358979323846
 #define h 0.01        // Paso temporal
-#define E 10.0         // Energía total del sistema
+#define E 1.0         // Energía total del sistema
 #define tf 30        // Tiempo total de la simulacion
+#define valu 4.0
 
 
 
 void condiciones_iniciales(double *y){
 
-    y[0]=pi/16;   //Phi
+    y[0]=0.25;   //Phi
     y[1]=pi/16;   //Psi
     y[2]=sqrt(-3*g+E+2*g*cos(y[0])+g*cos(y[1]));     //Velocidad de Phi 
     y[3]=0;                                       //Velocidad de Psi
@@ -65,7 +66,7 @@ int main(void)
     }
 
     char nombre_archivo_phi_psi[50]; // Buffer para el nombre del archivo
-    sprintf(nombre_archivo_phi_psi, "c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincareTXT/poincare_phi_psi_E%.1f.txt", E); // Construir el nombre dinámicamente
+    sprintf(nombre_archivo_phi_psi, "c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincareTXT/poincare_phi_psi_Estabilidad%.1f.txt", valu); // Construir el nombre dinámicamente
     FILE *archivo_phi_psi=fopen(nombre_archivo_phi_psi, "w");
     if (archivo_phi_psi == NULL) {
         printf("Error: No se pudo abrir archivo_phi_psi\n");
