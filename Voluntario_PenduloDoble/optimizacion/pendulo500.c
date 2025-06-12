@@ -55,30 +55,31 @@ double f_ddpsi(double phi, double psi, double dphi, double dpsi)    // Calcula l
 
 int main(void)
 {
-    FILE *archivo_posiciones=fopen("c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/posicionesTXT/posiciones_E.txt", "w");
+    FILE *archivo_posiciones=fopen("posiciones_E.txt", "w");
     // Verificar que todos los archivos se abrieron correctamente
     if (archivo_posiciones == NULL) {
         printf("Error: No se pudo abrir archivo_posiciones\n");
         return 1;
     }
 
-    FILE *archivo_phi_psi=fopen("c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincareTXT/poincare_phi_psi_E.txt", "w");
+    FILE *archivo_phi_psi=fopen("poincare_phi_psi_E.txt", "w");
     if (archivo_phi_psi == NULL) {
         printf("Error: No se pudo abrir archivo_phi_psi\n");
         return 1;
     }
 
-    FILE *archivo_phi_dphi=fopen("c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincareTXT/poincare_phi_dphi_E.txt", "w");
+    FILE *archivo_phi_dphi=fopen("poincare_phi_dphi_E.txt", "w");
     if (archivo_phi_dphi == NULL) {
         printf("Error: No se pudo abrir archivo_phi_dphi\n");
         return 1;
     }
 
-    FILE *archivo_psi_dpsi=fopen("c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincareTXT/poincare_psi_dpsi_E.txt", "w");
+    FILE *archivo_psi_dpsi=fopen("poincare_psi_dpsi_E.txt", "w");
     if (archivo_psi_dpsi == NULL) {
         printf("Error: No se pudo abrir archivo_psi_dpsi\n");
         return 1;
     }
+
 
 
 
