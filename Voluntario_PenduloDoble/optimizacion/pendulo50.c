@@ -55,34 +55,26 @@ double f_ddpsi(double phi, double psi, double dphi, double dpsi)    // Calcula l
 
 int main(void)
 {
-    char nombre_archivo_posiciones[120]; // Buffer para el nombre del archivo
-    sprintf(nombre_archivo_posiciones, "c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/posicionesTXT/posiciones_E%.1f.txt", E); // Construir el nombre dinámicamente
-    FILE *archivo_posiciones=fopen(nombre_archivo_posiciones, "w");
+    FILE *archivo_posiciones=fopen("c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/posicionesTXT/posiciones_E.txt", "w");
     // Verificar que todos los archivos se abrieron correctamente
     if (archivo_posiciones == NULL) {
         printf("Error: No se pudo abrir archivo_posiciones\n");
         return 1;
     }
 
-    char nombre_archivo_phi_psi[50]; // Buffer para el nombre del archivo
-    sprintf(nombre_archivo_phi_psi, "c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincareTXT/poincare_phi_psi_E%.1f.txt", E); // Construir el nombre dinámicamente
-    FILE *archivo_phi_psi=fopen(nombre_archivo_phi_psi, "w");
+    FILE *archivo_phi_psi=fopen("c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincareTXT/poincare_phi_psi_E.txt", "w");
     if (archivo_phi_psi == NULL) {
         printf("Error: No se pudo abrir archivo_phi_psi\n");
         return 1;
     }
 
-    char nombre_archivo_phi_dphi[50]; // Buffer para el nombre del archivo
-    sprintf(nombre_archivo_phi_dphi, "c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincareTXT/poincare_phi_dphi_E%.1f.txt", E); // Construir el nombre dinámicamente
-    FILE *archivo_phi_dphi=fopen(nombre_archivo_phi_dphi, "w");
+    FILE *archivo_phi_dphi=fopen("c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincareTXT/poincare_phi_dphi_E.txt", "w");
     if (archivo_phi_dphi == NULL) {
         printf("Error: No se pudo abrir archivo_phi_dphi\n");
         return 1;
     }
 
-    char nombre_archivo_psi_dpsi[50]; // Buffer para el nombre del archivo
-    sprintf(nombre_archivo_psi_dpsi, "c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincareTXT/poincare_psi_dpsi_E%.1f.txt", E); // Construir el nombre dinámicamente
-    FILE *archivo_psi_dpsi=fopen(nombre_archivo_psi_dpsi, "w");
+    FILE *archivo_psi_dpsi=fopen("c:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/poincareTXT/poincare_psi_dpsi_E.txt", "w");
     if (archivo_psi_dpsi == NULL) {
         printf("Error: No se pudo abrir archivo_psi_dpsi\n");
         return 1;
