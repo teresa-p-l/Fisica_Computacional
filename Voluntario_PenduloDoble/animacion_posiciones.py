@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from matplotlib.patches import Circle, Rectangle
 import os
-E=10.0
+E=20.0
 
 # Función para leer el archivo de coordenadas
 def leer_coordenadas(nombre_archivo):
@@ -46,7 +46,7 @@ def animar_pendulo_doble(frames):
     ax.set_ylim(-2.5, 2.5)
     ax.set_aspect('equal')
     ax.grid(True)
-    ax.set_title('Simulación de Péndulo Doble')
+    ax.set_title(r'Simulación para E=20.0, h=0.01 y ángulos iniciales $\phi$ = 0.3 rad y $\psi$ = 0.4 rad')
     
     # Inicializar elementos gráficos
     origen = (0, 0)
@@ -113,7 +113,7 @@ fig, ani = animar_pendulo_doble(frames)
     # Guardar la animación como archivo GIF o mostrarla
 
 
-    #ani.save(f"C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/animacion.mp4", writer='pillow', fps=20)
-    #print(f"Animación guardada como {nombre_salida}.gif")
+ani.save(f"C:/Users/Teresa/Desktop/COMPU/Fisica_Computacional/Voluntario_PenduloDoble/animacionpendulo2.mp4", writer='ffmpeg', fps=80)
+print(f"Animación guardada como pendulo.gif")
 
 plt.show()
