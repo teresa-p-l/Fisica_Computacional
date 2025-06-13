@@ -303,7 +303,7 @@ int main(void) {
 
 
 
-        
+        if (step == 10000) printf("%f", compute_histogram_v_paT());
 
     }
 
